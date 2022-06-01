@@ -1,19 +1,15 @@
 
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
+import 'package:gestao_escala/application/ui/app_img_config.dart';
 import 'package:gestao_escala/modules/login/login_controller.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../application/ui/app_ui_config.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 
 class LoginPage extends GetView<LoginController> {
    
   LoginPage({Key? key}) : super(key: key);
-   
-  final styleBase = GoogleFonts.roboto(
-    fontSize: 50  
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +23,7 @@ class LoginPage extends GetView<LoginController> {
         children: [
           Hero(
             tag: 'splash',
-            child: Image.asset('assets/images/logo-app.png'),
+            child: Image.asset(AppImgConfig.logo),
           ),
           AnimatedCard(
             direction: AnimatedCardDirection.left, 
@@ -54,7 +50,7 @@ class LoginPage extends GetView<LoginController> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/images/google.png', width: 15,),
+          Image.asset(AppImgConfig.google, width: 15,),
           SizedBox(width: 18,),
           Text('Login')
         ],
