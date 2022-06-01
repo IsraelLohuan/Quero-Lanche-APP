@@ -1,4 +1,4 @@
-package com.example.gestao_escala
+package br.com.gestao_escala
 
 import io.flutter.embedding.android.FlutterActivity
 

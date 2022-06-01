@@ -15,9 +15,11 @@ dependencies:
   get: #^4.3.8
     git: https://github.com/jonataslaw/getx.git
   google_fonts: ^3.0.1
-  flutter_signin_button: ^2.0.0
   animated_card: ^2.0.0
-
+  firebase_auth: ^3.3.19
+  firebase_core: ^1.17.1
+  google_sign_in: ^5.0.7
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

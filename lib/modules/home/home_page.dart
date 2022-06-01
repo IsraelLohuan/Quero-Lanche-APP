@@ -9,8 +9,12 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home Page'),),
-      body: Container(),
+      appBar: AppBar(title: Text(controller.user!.displayName!),),
+      body: Container(
+        child: Center(
+          child: Image.network(controller.user!.photoURL!),
+        ),
+      ),
     );
   }
 }

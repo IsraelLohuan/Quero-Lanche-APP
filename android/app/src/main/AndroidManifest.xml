@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.gestao_escala">
+    package="br.com.gestao_escala">
    <application
         android:label="gestao_escala"
         android:name="${applicationName}"

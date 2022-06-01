@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "986035939393",
+    "project_id": "gestao-escala",
+    "storage_bucket": "gestao-escala.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986035939393:android:4019c2766de9a725b2bec0",
+        "android_client_info": {
+          "package_name": "br.com.gestao_escala"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986035939393-858e1tac8re92fualjh293itufpd1ops.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.gestao_escala",
+            "certificate_hash": "78e332f4cf6d2348b81ac8c5f62ab1abf04f3338"
+          }
+        },
+        {
+          "client_id": "986035939393-eohbqnqt6teud4mlm4006f355ab093fp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgq_fRLn5TCrv6Q6yAqF0W84GYqXicIuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "986035939393-eohbqnqt6teud4mlm4006f355ab093fp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

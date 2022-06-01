@@ -38,23 +38,26 @@ class LoginPage extends GetView<LoginController> {
     );
   }
 
-  Container builderButtonAuth() {
-    return Container(
-      width: 180,
-      height: 40,
-      decoration: BoxDecoration(  
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20)
+  Widget builderButtonAuth() {
+    return InkWell(
+      onTap: () => controller.login(),
+      child: Container(
+        width: 180,
+        height: 40,
+        decoration: BoxDecoration(  
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20)
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(AppImgConfig.google, width: 15,),
+            SizedBox(width: 18,),
+            Text('Login')
+          ],
+        )
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(AppImgConfig.google, width: 15,),
-          SizedBox(width: 18,),
-          Text('Login')
-        ],
-      )
     );
   }
 }
