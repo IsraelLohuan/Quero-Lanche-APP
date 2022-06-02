@@ -1,28 +1,48 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gestao_escala/modules/models/user_model.dart';
 import 'package:gestao_escala/repositories/login/i_login_repository.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginRepository implements ILoginRepository {
+  
   @override
-  Future<UserCredential> login() async {
-    final googleUser = await GoogleSignIn().signIn();
-    final googleAuth = await googleUser?.authentication;
+  Future<UserModel?> findAccountByEmail(String email) async {
+    final CollectionReference accountRef = FirebaseFirestore.instance.collection('/user');
 
-    if(googleAuth != null) {
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken
-      );
+    QuerySnapshot<Object?> snapshot = await accountRef.where('email', isEqualTo: email).get(); 
 
-      return FirebaseAuth.instance.signInWithCredential(credential);
+    if(snapshot.docs.isNotEmpty) {
+      final json = snapshot.docs.first.data() as Map<String, dynamic>;
+      return UserModel.fromJson(json);
     }
 
-    throw Exception('Falha ao realizar Login!');
+    return null;
   }
 
   @override
-  Future<void> logout() async {
-    await GoogleSignIn().signOut();
-    FirebaseAuth.instance.signOut();
+  Future<UserModel> login(String email, String password) async {
+    final UserModel? userModel = await findAccountByEmail(email);
+
+    if(userModel == null) {
+      throw Exception('E-mail informado não encontrado :(');
+    } 
+
+    if(userModel.password == password) {
+      return userModel;
+    }
+
+    throw Exception('Credenciais inválidas :(');
+  }
+
+  @override
+  Future<UserModel> register(UserModel userModel) async {
+    if(await findAccountByEmail(userModel.email) != null) {
+      throw Exception('O E-mail informado já está registrado!');
+    }
+
+    final CollectionReference accountRef = FirebaseFirestore.instance.collection('/user');
+
+    accountRef.doc().set(userModel.toJson());
+
+    return userModel;
   }
 }

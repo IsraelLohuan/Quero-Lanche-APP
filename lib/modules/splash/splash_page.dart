@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gestao_escala/application/ui/app_img_config.dart';
-import 'package:gestao_escala/application/ui/app_ui_config.dart';
 import 'package:gestao_escala/modules/splash/splash_controller.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +10,7 @@ class SplashPage extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppUiConfig.colorMain,
+      backgroundColor: Colors.white,
       body: Center(
         child: Hero(
           tag: 'splash',

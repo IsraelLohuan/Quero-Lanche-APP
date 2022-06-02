@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class ApplicationBindings implements BindingsInterface {
   @override
   dependencies() {
-    Get.put(AuthService()).init();
+    Get.put(AuthService());
     Get.lazyPut<ILoginRepository>(() => LoginRepository());
   }
 }

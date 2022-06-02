@@ -1,14 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:gestao_escala/modules/models/user_model.dart';
 import 'package:get/get.dart';
 
 class AuthService extends GetxService {
 
-  User? user;
+  late UserModel _userModel;
 
-  Future<void> init() async {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) { 
-      this.user = user;
-      user == null ? Get.offAllNamed('/login') : Get.offAllNamed('/home'); 
-    });
-  }
+  set userModel(UserModel user) => _userModel = user;
+  UserModel get user => _userModel;
 }

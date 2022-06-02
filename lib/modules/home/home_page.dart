@@ -11,7 +11,7 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppUiConfig.colorMain,
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Container(
@@ -51,21 +51,13 @@ class HomePage extends GetView<HomeController> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: Image.network(
-            controller.user!.photoURL!,
-            width: 50,
-            height: 50,
-          ),
-        ),
         SizedBox(width: 10,),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${controller.user!.displayName!},',
+              '${controller.user.displayName},',
               style: GoogleFonts.roboto(
                 textStyle: TextStyle(
                   color: Colors.white,

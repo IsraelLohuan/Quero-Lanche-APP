@@ -1,6 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:gestao_escala/modules/models/user_model.dart';
 
 abstract class ILoginRepository {
-  Future<UserCredential> login();
-  Future<void> logout();
+  Future<UserModel?> findAccountByEmail(String email);
+  Future<UserModel> login(String email, String password);
+  Future<UserModel> register(UserModel user);
 }

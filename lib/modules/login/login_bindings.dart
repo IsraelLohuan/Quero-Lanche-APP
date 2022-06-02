@@ -4,6 +4,6 @@ import 'package:get/get.dart';
 class LoginBindings implements BindingsInterface {
   @override
   dependencies() {
-    Get.put(LoginController(loginRepository: Get.find())); 
+    Get.put(LoginController(loginRepository: Get.find(), authService: Get.find())); 
   }
 }
