@@ -1,77 +1,61 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:gestao_escala/application/ui/app_ui_config.dart';
+import 'package:gestao_escala/modules/home/components/members/members_page.dart';
+import 'package:gestao_escala/modules/home/components/scale/scale_page.dart';
 import 'package:gestao_escala/modules/home/home_controller.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends GetView<HomeController> {
    
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
    
+  final List<Widget> bodys = [ScalePage(), MembersPage()];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: Text('Escalas', style: TextStyle(fontSize: 24),),
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (_) => [
+              PopupMenuItem<String>(value: '0', child: ListTile(leading: Icon(Icons.filter_alt), title: Text('Filtros'),)),
+            ]
+          )
+        ],
+      ),
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          Container(
-            color: AppUiConfig.colorMain,
-            height: 200,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16, bottom: 16, right: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  builderUserInfo(),
-                  Icon(Icons.exit_to_app, color: Colors.white,)
-                ],
-              ),
+      body: Obx(() => bodys[controller.indexTab.value]),
+      drawer: Drawer(child: Text(''),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {  },
+        child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: Obx(() {
+        return BottomNavyBar(
+          selectedIndex: controller.indexTab.value,
+          showElevation: true,
+          itemCornerRadius: 24,
+          curve: Curves.easeIn,
+          onItemSelected: controller.onSelectedItemTab,
+          items: <BottomNavyBarItem>[
+            BottomNavyBarItem(
+              icon: const Icon(Icons.apps),
+              title: const Text('Escala'),
+              activeColor: Get.theme.primaryColorDark,
+              textAlign: TextAlign.center,
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 540,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50),
-                  topRight: Radius.circular(50)
-                )
-              ),
+            BottomNavyBarItem(
+              icon: const Icon(Icons.people),
+              title: const Text('Membros'),
+              activeColor: Get.theme.primaryColorDark,
+              textAlign: TextAlign.center,
             ),
-          ),
-        ] 
-      )
-    );
-  }
-
-  Row builderUserInfo() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(width: 10,),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '${controller.user.displayName},',
-              style: GoogleFonts.roboto(
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold
-                )
-              ),
-            ),
-            Text(
-              'Seja Bem Vindo!',
-              style: TextStyle(color: Colors.white, fontSize: 15)
-            )
           ],
-         ),       
-      ],
+        );
+      })
     );
   }
 }

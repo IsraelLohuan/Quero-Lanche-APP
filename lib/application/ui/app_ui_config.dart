@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestao_escala/application/utils/utils.dart';
 
 class AppUiConfig {
 
@@ -10,9 +11,11 @@ class AppUiConfig {
 
   static ThemeData get theme => ThemeData(
     scaffoldBackgroundColor: Colors.white,
-    appBarTheme: const AppBarTheme(
+    primaryColor: colorMain,
+    primarySwatch: Utils.buildMaterialColor(colorMain),
+    appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: IconThemeData(color: colorMain),
       titleTextStyle: TextStyle(
         color: Color(0xff222222),
         fontSize: 18,

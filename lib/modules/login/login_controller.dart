@@ -33,19 +33,15 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
     try {
       loading(true);
 
-      if(isLogin.value) {
-        authService.userModel = await loginRepository.login(email, password);
-      } else {
-        final user = UserModel(
-          email: email, 
-          displayName: name, 
-          uid: Uuid().v1(), 
-          password: password
-        );
+      final user = UserModel(
+        email: email, 
+        displayName: name, 
+        uid: Uuid().v1(), 
+        password: password
+      );
 
-        authService.userModel = await loginRepository.register(user);
-      }
-
+      authService.userModel = isLogin.value ? await loginRepository.login(email, password) : await loginRepository.register(user);
+    
       loading(false);
       Get.offNamed('/home');
     } catch(e) {
