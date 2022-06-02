@@ -9,7 +9,10 @@ class HomePage extends GetView<HomeController> {
    
   HomePage({Key? key}) : super(key: key);
    
-  final List<Widget> bodys = [ScalePage(), MembersPage()];
+  final List<Widget> bodys = [
+    ScalePage(), 
+    MembersPage()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class HomePage extends GetView<HomeController> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        title: Text('Escalas', style: TextStyle(fontSize: 24),),
+        title: Obx(() => Text(controller.titlePage, style: TextStyle(fontSize: 24),)),
         actions: [
           PopupMenuButton(
             itemBuilder: (_) => [
@@ -49,7 +52,7 @@ class HomePage extends GetView<HomeController> {
             ),
             BottomNavyBarItem(
               icon: const Icon(Icons.people),
-              title: const Text('Membros'),
+              title: const Text('Colaboradores'),
               activeColor: Get.theme.primaryColorDark,
               textAlign: TextAlign.center,
             ),

@@ -4,6 +4,6 @@ import 'package:get/get.dart';
 class HomeBindings implements BindingsInterface {
   @override
   dependencies() {
-    Get.put(HomeController(authService: Get.find()));
+    Get.put(HomeController(authService: Get.find(), memberService: Get.find()));
   }
 }

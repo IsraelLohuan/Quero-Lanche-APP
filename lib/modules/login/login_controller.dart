@@ -1,10 +1,12 @@
-import 'package:gestao_escala/application/auth/auth_service.dart';
+import 'package:gestao_escala/application/services/auth_service.dart';
 import 'package:gestao_escala/application/ui/loader/loader_mixin.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/modules/models/user_model.dart';
 import 'package:gestao_escala/repositories/login/i_login_repository.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../application/services/auth_service.dart';
 
 class LoginController extends GetxController with LoaderMixin, MessagesMixin {
 
