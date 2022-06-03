@@ -5,6 +5,6 @@ class ScaleBindings implements Bindings {
 
   @override
   dependencies() {
-    Get.put(ScaleController());
+    Get.put(ScaleController(memberService: Get.find()));
   }
 }

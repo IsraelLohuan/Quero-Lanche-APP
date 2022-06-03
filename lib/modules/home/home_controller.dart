@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:gestao_escala/application/services/auth_service.dart';
+import 'package:gestao_escala/modules/home/home_page.dart';
 import 'package:gestao_escala/modules/member/members_page.dart';
 import 'package:gestao_escala/modules/scale/scale_bindings.dart';
+import 'package:gestao_escala/modules/scale/scale_page.dart';
 import 'package:get/get.dart';
 
 import '../../models/user_model.dart';
@@ -37,7 +39,7 @@ class HomeController extends GetxController {
     if (settings.name == '/scales') {
       return GetPageRoute(
         settings: settings,
-        page: () => Container(),
+        page: () => ScalePage(),
         transition: Transition.fadeIn,
         bindings: [
           ScaleBindings()

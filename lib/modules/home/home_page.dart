@@ -29,10 +29,6 @@ class HomePage extends GetView<HomeController> {
         key: Get.nestedKey(HomeController.NAVIGATOR_KEY),
       ),
       drawer: Drawer(child: Text(''),),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {  },
-        child: Icon(Icons.add),
-      ),
       bottomNavigationBar: Obx(() {
         return BottomNavyBar(
           selectedIndex: controller.indexTab.value,

@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
+
+class AlertMessageApp extends StatelessWidget {
+
+  final MessageModel messageModel;
+
+  AlertMessageApp({Key? key, required this.messageModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.warning, color: messageModel.type.color(), size: 60,),
+          SizedBox(height: 10,),
+          Text(
+            messageModel.message,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 17
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
