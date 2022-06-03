@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gestao_escala/modules/models/user_model.dart';
 import 'package:gestao_escala/repositories/login/i_login_repository.dart';
+
+import '../../models/user_model.dart';
 
 class LoginRepository implements ILoginRepository {
   

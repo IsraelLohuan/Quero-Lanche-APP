@@ -20,7 +20,7 @@ class LoginPage extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 5;
+    timeDilation = 2;
 
     return Scaffold(
       backgroundColor: Colors.white,

@@ -1,17 +1,22 @@
 
+import 'package:flutter/material.dart';
 import 'package:gestao_escala/application/services/auth_service.dart';
-import 'package:gestao_escala/application/services/member_service.dart';
-import 'package:gestao_escala/modules/models/user_model.dart';
+import 'package:gestao_escala/modules/member/members_page.dart';
+import 'package:gestao_escala/modules/scale/scale_bindings.dart';
 import 'package:get/get.dart';
+
+import '../../models/user_model.dart';
 
 class HomeController extends GetxController {
 
+  static const NAVIGATOR_KEY = 1;
+
   final AuthService authService;
-  final MemberService memberService;
+  
+  final _tabs = ['/scales', '/members', '/exit'];
 
   HomeController({
     required this.authService, 
-    required this.memberService
   });
 
   UserModel get user => authService.user;
@@ -20,6 +25,31 @@ class HomeController extends GetxController {
   
   void onSelectedItemTab(int index) {
     indexTab.value = index;
+
+    if (_tabs[index] == '/exit') {
+      print('exit');
+    } else {
+      Get.toNamed(_tabs[index], id: NAVIGATOR_KEY);
+    }
+  }
+
+  Route? onGeneratedRouter(RouteSettings settings) {
+    if (settings.name == '/scales') {
+      return GetPageRoute(
+        settings: settings,
+        page: () => Container(),
+        transition: Transition.fadeIn,
+        bindings: [
+          ScaleBindings()
+        ]
+      );
+    }
+
+    return GetPageRoute(
+      settings: settings,
+      page: () => MembersPage(),
+      transition: Transition.fadeIn,
+    );
   }
 
   String get titlePage => indexTab.value == 0 ? 'Escalas' : 'Colaboradores';

@@ -1,19 +1,12 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:gestao_escala/modules/home/components/members/members_page.dart';
-import 'package:gestao_escala/modules/home/components/scale/scale_page.dart';
 import 'package:gestao_escala/modules/home/home_controller.dart';
 import 'package:get/get.dart';
 
 class HomePage extends GetView<HomeController> {
    
   HomePage({Key? key}) : super(key: key);
-   
-  final List<Widget> bodys = [
-    ScalePage(), 
-    MembersPage()
-  ];
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +23,11 @@ class HomePage extends GetView<HomeController> {
         ],
       ),
       backgroundColor: Colors.white,
-      body: Obx(() => bodys[controller.indexTab.value]),
+      body: Navigator(
+        initialRoute: '/scales',
+        onGenerateRoute: controller.onGeneratedRouter,
+        key: Get.nestedKey(HomeController.NAVIGATOR_KEY),
+      ),
       drawer: Drawer(child: Text(''),),
       floatingActionButton: FloatingActionButton(
         onPressed: () {  },
@@ -53,6 +50,12 @@ class HomePage extends GetView<HomeController> {
             BottomNavyBarItem(
               icon: const Icon(Icons.people),
               title: const Text('Colaboradores'),
+              activeColor: Get.theme.primaryColorDark,
+              textAlign: TextAlign.center,
+            ),
+             BottomNavyBarItem(
+              icon: const Icon(Icons.exit_to_app),
+              title: const Text('Sair'),
               activeColor: Get.theme.primaryColorDark,
               textAlign: TextAlign.center,
             ),

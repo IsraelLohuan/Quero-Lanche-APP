@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gestao_escala/modules/home/components/members/components/card_member.dart';
+import 'package:gestao_escala/application/services/member_service.dart';
 import 'package:gestao_escala/modules/home/home_controller.dart';
-import 'package:gestao_escala/modules/models/user_model.dart';
 import 'package:get/get.dart';
+
+import '../../models/user_model.dart';
+import 'components/card_member.dart';
 
 class MembersPage extends GetView<HomeController> {
    
@@ -11,8 +13,8 @@ class MembersPage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<UserModel>>(
-      future: controller.memberService.fetchAll(),
-      initialData: controller.memberService.members,
+      future: Get.find<MemberService>().fetchAll(),
+      initialData: null,
       builder: (context, snapshot) {
         if(snapshot.hasError) {
           return Text(snapshot.error.toString());

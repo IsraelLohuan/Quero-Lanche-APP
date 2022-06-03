@@ -1,6 +1,7 @@
 
-import 'package:gestao_escala/modules/models/user_model.dart';
 import 'package:get/get.dart';
+
+import '../../models/user_model.dart';
 
 class AuthService extends GetxService {
 
