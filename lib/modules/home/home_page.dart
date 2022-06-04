@@ -19,13 +19,6 @@ class HomePage extends GetView<HomeController> {
         elevation: 0,
         centerTitle: true,
         title: Obx(() => Text(controller.titlePage, style: TextStyle(fontSize: 24),)),
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (_) => [
-              PopupMenuItem<String>(value: '0', child: ListTile(leading: Icon(Icons.filter_alt), title: Text('Filtros'),)),
-            ]
-          )
-        ],
       ),
       backgroundColor: Colors.white,
       body: Navigator(
