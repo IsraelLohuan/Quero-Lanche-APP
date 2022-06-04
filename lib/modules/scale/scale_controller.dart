@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:gestao_escala/application/services/member_service.dart';
 import 'package:gestao_escala/models/user_model.dart';
 import 'package:get/get.dart';
@@ -7,14 +9,16 @@ class ScaleController extends GetxController {
   final MemberService memberService;
 
   List<UserModel> allUsers = [];
-  RxList<UserModel> usersSelected = <UserModel>[].obs;
+  final RxList<UserModel> _usersSelected = <UserModel>[].obs;
 
   ScaleController({required this.memberService});
 
+  String get usersSelectedTotal => _usersSelected.length.toString();
+  bool userInList(UserModel user) => _usersSelected.contains(user);
+  
   Future<List<UserModel>> fetchAllUsers() async {
     allUsers = await memberService.fetchAll(); 
-
-    usersSelected.clear();
+    _usersSelected.clear();
 
     if(allUsers.length == 1) {
       throw Exception('Não é possível continuar com a operação, necessário no mínimo 2 Usuários cadastrados :(');
@@ -23,17 +27,7 @@ class ScaleController extends GetxController {
     return allUsers;
   }
 
-  bool userInList(UserModel user) => usersSelected.contains(user);
-
   void onChangedSwitch(bool result, UserModel user) {
-
-    if(userInList(user) && result == false) {
-      usersSelected.remove(user);
-      return;
-    } 
-      
-    if(result) {
-      usersSelected.add(user);
-    }
+    result == false ?  _usersSelected.remove(user) : _usersSelected.add(user);
   }
 }

@@ -71,7 +71,7 @@ class ScalePage extends GetView<ScaleController> {
                         return  ElevatedButton.icon(
                           onPressed: () => print('teste'), 
                           icon: Icon(Icons.check), 
-                          label: Text(controller.usersSelected.length.toString())
+                          label: Text(controller.usersSelectedTotal)
                         );
                       }),
                     )
