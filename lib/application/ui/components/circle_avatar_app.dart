@@ -4,8 +4,9 @@ class CircleAvatarApp extends StatelessWidget {
 
   final String name;
   final double size;
+  final bool isFirstName;
 
-  CircleAvatarApp({ Key? key, required this.name, this.size = 30}) : super(key: key);
+  CircleAvatarApp({ Key? key, required this.name, this.isFirstName = true, this.size = 30}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class CircleAvatarApp extends StatelessWidget {
         width: size,
         height: size,
         color: Colors.green,
-        child: Center(child: Text(name[0], style: TextStyle(color: Colors.white,))),
+        child: Center(child: Text(isFirstName ? name[0] : name, style: TextStyle(color: Colors.white,))),
       ),
     );
   }

@@ -2,13 +2,14 @@
 import 'dart:async';
 
 import 'package:gestao_escala/application/services/member_service.dart';
+import 'package:gestao_escala/application/ui/loader/loader_mixin.dart';
 import 'package:gestao_escala/application/utils/date_utils.dart';
 import 'package:gestao_escala/models/day_model.dart';
 import 'package:gestao_escala/models/user_model.dart';
 import 'package:gestao_escala/repositories/scale/i_scale_repository.dart';
 import 'package:get/get.dart';
 
-class ScaleController extends GetxController {
+class ScaleController extends GetxController with LoaderMixin {
 
   final IScaleRepository scaleRepository;
   final MemberService memberService;
@@ -21,15 +22,22 @@ class ScaleController extends GetxController {
   List<DayModel> daysScale = [];
 
   final RxList<UserModel> _usersSelected = <UserModel>[].obs;
-  
+  final RxBool _stateActionButton = true.obs;
+  final RxBool _isLoading = false.obs;
+
   ScaleController({required this.scaleRepository, required this.memberService});
 
   String get usersSelectedTotal => _usersSelected.length.toString();
+  bool get isActivateAddScale => _stateActionButton.value;
+
   bool userInList(UserModel user) => _usersSelected.contains(user);
   
+  void updateStateActionButton() => _stateActionButton.value = daysScale.isNotEmpty;
+
   @override
   void onInit() {
     super.onInit();
+    loaderListener(_isLoading);
     fetchScale();
   }
 
@@ -39,7 +47,22 @@ class ScaleController extends GetxController {
       _streamDaysScale.add(daysScale);
     } catch(e) {
       _streamDaysScale.addError(e.toString());
+      daysScale = [];
     } 
+
+    updateStateActionButton();
+  }
+
+  Future<void> deleteScale() async {
+    try {
+      _isLoading(true);
+      await scaleRepository.deleteScale();
+      await fetchScale();
+    } catch(e) {
+      _streamDaysScale.addError(e.toString());  
+    }
+
+    _isLoading(false);
   }
 
   Future<List<UserModel>> fetchAllUsers() async {

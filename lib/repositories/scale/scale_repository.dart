@@ -17,7 +17,13 @@ class ScaleRepository implements IScaleRepository {
 
   @override
   Future<void> deleteScale() async {
-    
+
+    final CollectionReference accountRef = FirebaseFirestore.instance.collection(collection);
+    final snapshots = await accountRef.get();
+
+    for (var doc in snapshots.docs) {
+      await doc.reference.delete();
+    }
   }
 
   @override

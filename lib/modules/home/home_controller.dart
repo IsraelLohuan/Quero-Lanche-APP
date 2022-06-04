@@ -54,5 +54,5 @@ class HomeController extends GetxController {
     );
   }
 
-  String get titlePage => indexTab.value == 0 ? 'Escalas' : 'Colaboradores';
+  String get titlePage => indexTab.value == 0 ? 'Escala' : 'Colaboradores';
 }

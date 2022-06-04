@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestao_escala/application/ui/components/alert_message_app.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/models/user_model.dart';
+import 'package:gestao_escala/modules/scale/components/card_date.dart';
 import 'package:gestao_escala/modules/scale/scale_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -27,22 +28,48 @@ class ScalePage extends GetView<ScaleController> {
 
           return ListView.builder(
             itemCount: controller.daysScale.length,
-            itemBuilder: (context, index) {
-
-              final valueDay = controller.daysScale[index];
-
-              return ListTile(
-                title: Text(valueDay.userResponsible.displayName),
-                subtitle: Text(DateFormat("dd/MM/yyyy").format(valueDay.day)),
-              );
-            },
+            itemBuilder: (context, index) => CardDate(dayInfo: controller.daysScale[index])
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => showDialogUsers(),
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: Obx(() {
+        if(controller.isActivateAddScale) {
+          return FloatingActionButton(
+            onPressed: () => showModalBottomSheet(
+              context: context, 
+              builder: (context) {
+                return Container(
+                  height: 250,
+                  child: Column(
+                    children: [
+                      AlertMessageApp(messageModel: MessageModel(message: 'Você está prestes a remover a escala gerada deste ano! Deseja realizar esta ação?\nObs: O processo pode levar alguns segundos...', type: MessageType.info)),
+                      SizedBox(height: 10,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(onPressed: () {
+                            Navigator.of(context).pop();
+                            controller.deleteScale();
+                          }, icon: Icon(Icons.thumb_up), label: Text('Sim')),
+                          SizedBox(width: 10,),
+                          ElevatedButton.icon(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.thumb_down), label: Text('Não')),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              }
+            ),
+            child: Icon(Icons.delete),
+          );
+        }
+
+        return FloatingActionButton(
+          onPressed: () => showDialogUsers(),
+          child: Icon(Icons.add),
+        );
+      })
     );  
   }
 
