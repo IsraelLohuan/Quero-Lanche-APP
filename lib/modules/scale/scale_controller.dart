@@ -30,4 +30,12 @@ class ScaleController extends GetxController {
   void onChangedSwitch(bool result, UserModel user) {
     result == false ?  _usersSelected.remove(user) : _usersSelected.add(user);
   }
+
+  Future<bool> generateScale() async {
+    if(int.parse(usersSelectedTotal) <= 1) {
+      throw Exception('Necessário no mínimo 2 Usuários selecionados!');
+    }
+
+    return true;
+  }
 }

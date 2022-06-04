@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gestao_escala/application/ui/components/alert_message_app.dart';
-import 'package:gestao_escala/application/ui/components/circle_avatar_app.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/models/user_model.dart';
 import 'package:gestao_escala/modules/scale/scale_controller.dart';
@@ -21,6 +20,41 @@ class ScalePage extends GetView<ScaleController> {
         child: Icon(Icons.add),
       ),
     );  
+  }
+
+  void showDialogGenerateScale() {
+    showDialog(
+      context: Get.context!,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Nova Escala'),
+          content: Container(
+            height: 300,
+            width: 300,
+            child: FutureBuilder<bool>(
+              future: controller.generateScale(),
+              builder: (context, snapshot) {
+                if(snapshot.hasError) {
+                  return AlertMessageApp(
+                    messageModel: MessageModel(message: snapshot.error.toString(), type: MessageType.error),
+                  );
+                }
+
+                if(!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                return AlertMessageApp(
+                  messageModel: MessageModel(message: 'Escala deste Ano Gerada com sucesso :)', type: MessageType.sucess),
+                );
+              }
+            ),
+          ),
+        );
+      }
+    );
   }
 
   void showDialogUsers() {
@@ -69,7 +103,10 @@ class ScalePage extends GetView<ScaleController> {
                       alignment: Alignment.bottomRight,
                       child: Obx(() {
                         return  ElevatedButton.icon(
-                          onPressed: () => print('teste'), 
+                          onPressed: () {
+                            Get.back();
+                            showDialogGenerateScale();
+                          }, 
                           icon: Icon(Icons.check), 
                           label: Text(controller.usersSelectedTotal)
                         );
