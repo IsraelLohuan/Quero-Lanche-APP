@@ -49,7 +49,7 @@ extension MessageTypeExtension on MessageType {
       case MessageType.info:
         return Icons.warning;
       case MessageType.sucess:
-        return Icons.check; 
+        return Icons.check_circle; 
     }
   }
 

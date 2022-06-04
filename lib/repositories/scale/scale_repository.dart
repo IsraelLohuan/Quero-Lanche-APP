@@ -21,7 +21,6 @@ class ScaleRepository implements IScaleRepository {
     final CollectionReference accountRef = FirebaseFirestore.instance.collection(collection);
     final snapshots = await accountRef.get();
 
-    throw Exception('error delete');
     for (var doc in snapshots.docs) {
       await doc.reference.delete();
     }

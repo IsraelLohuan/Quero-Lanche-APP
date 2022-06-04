@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'package:gestao_escala/application/services/auth_service.dart';
 import 'package:gestao_escala/application/services/member_service.dart';
 import 'package:gestao_escala/application/ui/loader/loader_mixin.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
@@ -13,6 +14,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
 
   final IScaleRepository scaleRepository;
   final MemberService memberService;
+  final AuthService authService;
 
   final StreamController<List<DayModel>> _streamDaysScale = StreamController<List<DayModel>>.broadcast();
 
@@ -26,13 +28,14 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   final RxBool _isLoading = false.obs;
   final _messageModel = Rxn<MessageModel>();
 
-  ScaleController({required this.scaleRepository, required this.memberService});
+  ScaleController({required this.scaleRepository, required this.memberService, required this.authService});
 
   String get usersSelectedTotal => _usersSelected.length.toString();
   bool get isActivateAddScale => _isStateButtonCretaeScale.value;
 
   bool userInList(UserModel user) => _usersSelected.contains(user);
-  
+  bool isPaid(DayModel dayInfo) => dayInfo.day.isBefore(DateTime.now()); 
+
   void updateStateActionButton() {
     if(daysScale != null) {
       _isStateButtonCretaeScale.value = daysScale!.isEmpty;
@@ -120,5 +123,17 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     await fetchScale();
 
     return true;
+  }
+
+  int getDataPaid(bool value) {
+    if(daysScale?.isEmpty == true) {
+      return 0;
+    }
+
+    final values = daysScale?.where((info) {
+      return info.userResponsible.displayName == authService.user.displayName && isPaid(info) == value;
+    });
+
+    return values?.length ?? 0;
   }
 }
