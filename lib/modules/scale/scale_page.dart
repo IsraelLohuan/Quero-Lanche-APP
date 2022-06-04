@@ -4,6 +4,7 @@ import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/models/user_model.dart';
 import 'package:gestao_escala/modules/scale/scale_controller.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ScalePage extends GetView<ScaleController> {
    
@@ -12,8 +13,31 @@ class ScalePage extends GetView<ScaleController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AlertMessageApp(
-        messageModel: MessageModel(message: 'Não há escala cadastrada para este Ano!', type: MessageType.info)
+      body: StreamBuilder(
+        stream: controller.streamDaysScale,
+        initialData: controller.daysScale,
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {  
+          if(snapshot.hasError) {
+            return AlertMessageApp(messageModel: MessageModel(message: snapshot.error.toString(), type: MessageType.info));
+          }
+
+          if(!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          return ListView.builder(
+            itemCount: controller.daysScale.length,
+            itemBuilder: (context, index) {
+
+              final valueDay = controller.daysScale[index];
+
+              return ListTile(
+                title: Text(valueDay.userResponsible.displayName),
+                subtitle: Text(DateFormat("dd/MM/yyyy").format(valueDay.day)),
+              );
+            },
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showDialogUsers(),
@@ -32,7 +56,7 @@ class ScalePage extends GetView<ScaleController> {
             height: 300,
             width: 300,
             child: FutureBuilder<bool>(
-              future: controller.generateScale(),
+              future: controller.onCreatedScale(),
               builder: (context, snapshot) {
                 if(snapshot.hasError) {
                   return AlertMessageApp(

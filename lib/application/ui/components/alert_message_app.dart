@@ -13,7 +13,7 @@ class AlertMessageApp extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.warning, color: messageModel.type.color(), size: 60,),
+          Icon(messageModel.type.icon(), color: messageModel.type.color(), size: 60,),
           SizedBox(height: 10,),
           Text(
             messageModel.message,
