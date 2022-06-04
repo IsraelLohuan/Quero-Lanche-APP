@@ -19,36 +19,50 @@ class ScalePage extends GetView<ScaleController> {
         initialData: controller.daysScale,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {  
           if(snapshot.hasError) {
-            return AlertMessageApp(messageModel: MessageModel(message: snapshot.error.toString(), type: MessageType.info));
+            return AlertMessageApp(
+              messageModel: MessageModel(message: snapshot.error.toString(), type: MessageType.info)
+            );
           }
 
           if(!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           }
 
+          if(controller.daysScale!.isEmpty) {
+            return AlertMessageApp(
+              messageModel: MessageModel(message: 'Não há escala gerada para este Ano!', type: MessageType.info)
+            );  
+          }
+
           return ListView.builder(
-            itemCount: controller.daysScale.length,
-            itemBuilder: (context, index) => CardDate(dayInfo: controller.daysScale[index])
+            itemCount: controller.daysScale!.length,
+            itemBuilder: (context, index) => CardDate(dayInfo: controller.daysScale![index])
           );
         },
       ),
       floatingActionButton: Obx(() {
         if(controller.isActivateAddScale) {
           return FloatingActionButton(
-            onPressed: () => showModalBottomSheet(
-              context: context, 
-              builder: (context) {
-                return Container(
-                  height: 250,
-                  child: Column(
-                    children: [
-                      AlertMessageApp(messageModel: MessageModel(message: 'Você está prestes a remover a escala gerada deste ano! Deseja realizar esta ação?\nObs: O processo pode levar alguns segundos...', type: MessageType.info)),
-                      SizedBox(height: 10,),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton.icon(onPressed: () {
+            onPressed: () => showDialogUsers(),
+            child: Icon(Icons.add),
+          );
+        }
+
+        return FloatingActionButton(
+          onPressed: () => showModalBottomSheet(
+            context: context, 
+            builder: (context) {
+              return Container(
+                height: 250,
+                child: Column(
+                  children: [
+                    AlertMessageApp(messageModel: MessageModel(message: 'Você está prestes a remover a escala gerada deste ano! Deseja realizar esta ação?\nObs: O processo pode levar alguns segundos.', type: MessageType.info)),
+                    SizedBox(height: 10,),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(onPressed: () {
                             Navigator.of(context).pop();
                             controller.deleteScale();
                           }, icon: Icon(Icons.thumb_up), label: Text('Sim')),
@@ -61,13 +75,7 @@ class ScalePage extends GetView<ScaleController> {
                 );
               }
             ),
-            child: Icon(Icons.delete),
-          );
-        }
-
-        return FloatingActionButton(
-          onPressed: () => showDialogUsers(),
-          child: Icon(Icons.add),
+          child: Icon(Icons.delete),
         );
       })
     );  

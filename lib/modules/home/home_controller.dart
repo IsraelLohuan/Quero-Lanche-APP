@@ -29,7 +29,7 @@ class HomeController extends GetxController {
     indexTab.value = index;
 
     if (_tabs[index] == '/exit') {
-      print('exit');
+      authService.logout();
     } else {
       Get.toNamed(_tabs[index], id: NAVIGATOR_KEY);
     }

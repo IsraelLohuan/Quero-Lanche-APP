@@ -3,9 +3,11 @@ import 'package:gestao_escala/application/ui/loader/loader_mixin.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/repositories/login/i_login_repository.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../application/services/auth_service.dart';
+import '../../application/utils/constants.dart';
 import '../../models/user_model.dart';
 
 class LoginController extends GetxController with LoaderMixin, MessagesMixin {
@@ -14,9 +16,11 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
   final ILoginRepository loginRepository;
   final loading = false.obs;
   final message = Rxn<MessageModel>();
+  final _getStorage = GetStorage();
 
   final isLogin = true.obs;
-  final showPassword = false.obs;
+  final obscureText = true.obs;
+  final isSavedEmail = false.obs;
 
   LoginController({required this.loginRepository, required this.authService});
 
@@ -29,6 +33,7 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
     super.onInit();
     loaderListener(loading);
     messageListener(message);
+    isSavedEmail.value = Get.arguments['email'].toString().isNotEmpty; 
   }
 
   Future<void> auth(String name, String email, String password) async {
@@ -45,6 +50,13 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
       authService.userModel = isLogin.value ? await loginRepository.login(email, password) : await loginRepository.register(user);
     
       loading(false);
+
+      if(isSavedEmail.value) {
+        _getStorage.write(Constants.KEY_EMAIL, email);
+      } else {
+        _getStorage.remove(Constants.KEY_EMAIL);
+      }
+
       Get.offNamed('/home');
     } catch(e) {
       loading(false);
@@ -53,5 +65,6 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
   }
 
   void onTapActionTitle() => isLogin.value = !isLogin.value;
-  void tooglePassword() => showPassword.value = !showPassword.value;
+  void tooglePassword() => obscureText.value = !obscureText.value;
+  void toogleEmailSaved(bool? result) => isSavedEmail.value = result!;
 }

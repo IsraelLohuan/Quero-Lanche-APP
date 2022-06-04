@@ -15,7 +15,7 @@ class LoginPage extends GetView<LoginController> {
 
   final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
   final TextEditingController _edtName = TextEditingController();
-  final TextEditingController _edtEmail = TextEditingController();
+  final TextEditingController _edtEmail = TextEditingController(text: Get.arguments['email']);
   final TextEditingController _edtPassword = TextEditingController();
 
   @override
@@ -37,7 +37,11 @@ class LoginPage extends GetView<LoginController> {
                   children: [
                     Text(controller.alertBottom, style: TextStyle(color: Colors.grey),),
                     GestureDetector(
-                      onTap: () => controller.onTapActionTitle(),
+                      onTap: () {
+                        _edtEmail.clear();
+                        _edtPassword.clear();
+                        controller.onTapActionTitle();
+                      },
                       child: Text(
                         controller.actionBottom, 
                         style: TextStyle(fontWeight: FontWeight.bold, color: AppUiConfig.colorMain),
@@ -78,10 +82,10 @@ class LoginPage extends GetView<LoginController> {
                     Obx(() {
                       return FormFieldApp(
                         controller: _edtPassword,
-                        obscureText: controller.showPassword.value,
+                        obscureText: controller.obscureText.value,
                         prefixIcon: GestureDetector(
                           onTap: () => controller.tooglePassword(),
-                          child: Icon(Icons.remove_red_eye, color: controller.showPassword.value ? Colors.grey : Get.theme.iconTheme.color,)
+                          child: Icon(Icons.remove_red_eye, color: controller.obscureText.value ? Colors.grey : Get.theme.iconTheme.color,)
                         ),
                         hintText: 'Senha',
                         validator: Validators.compose([
@@ -90,6 +94,21 @@ class LoginPage extends GetView<LoginController> {
                         ]),
                       );
                     }),
+                    Visibility(
+                      visible: controller.isLogin.value,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text('Lembrar Email', style: TextStyle(color: Colors.grey, fontSize: 13),),
+                          Obx(() {
+                            return Switch(
+                              value: controller.isSavedEmail.value, 
+                              onChanged: (bool? value) => controller.toogleEmailSaved(value)
+                            );
+                          })
+                        ],
+                      ),
+                    ),
                     SizedBox(height: 10,),
                     GestureDetector(
                       onTap: () async {

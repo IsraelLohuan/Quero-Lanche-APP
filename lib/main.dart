@@ -6,12 +6,13 @@ import 'package:gestao_escala/modules/home/home_module.dart';
 import 'package:gestao_escala/modules/login/login_module.dart';
 import 'package:gestao_escala/modules/splash/splash_module.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get_storage/get_storage.dart';
 import 'application/bindings/application_bindings.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  
+  await GetStorage.init();
   runApp(const App());
 }
 
