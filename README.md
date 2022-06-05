@@ -62,6 +62,8 @@
 
    - Inicie o app: 
    $ flutter run
+   
+   - Senha para Logar como Gestor: 18072000
    ```
 
 ---
