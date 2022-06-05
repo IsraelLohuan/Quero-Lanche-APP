@@ -55,7 +55,7 @@
    $ git clone https://github.com/IsraelLohuan/Quero-Lanche-APP.git
 
    - Entre no diretório:
-   $ cd gestao_escala
+   $ cd Quero-Lanche-APP
 
    - Instale as dependências:
    $ flutter pub get
