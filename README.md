@@ -1,9 +1,14 @@
 <p align="center">
-    <img alt="Quero Lanche" src=".github/payflow-logo.png" width="200px">
+    <img alt="Quero Lanche" src=".github/logo.png" width="200px">
 </p>
 
 <p align="center">
   <img  src="https://img.shields.io/static/v1?label=license&message=MIT&color=000000&labelColor=8257e5" alt="License">
+</p>
+
+<p align="center">
+    <img  src="https://cdn.iconscout.com/icon/free/png-256/flutter-3629369-3032362.png" width="20px" alt="License">
+   <img  src="https://user-images.githubusercontent.com/26507463/53453892-49908900-3a04-11e9-9dce-77ed3d694326.png" width="20px" alt="License">
 </p>
 
 <h2 align="center">Tópicos 📋</h2>
@@ -11,7 +16,7 @@
    <p>
    
    - [Sobre 📖](#sobre-)
-   - [Prints 🎨](#layout-)
+   - [Prints 🎨](#prints-)
    - [Como Usar 🤔](#como-usar-)
 
    </p>
@@ -43,6 +48,9 @@
 <h2 align="center">Como Usar 🤔</h2>
 
    ```
+   
+   - Versão utilizada: Flutter 3.0.1 & Dart 2.17.1
+   
    - Clone esse repositório:
    $ git clone https://github.com/IsraelLohuan/Gestao-escala.git
 
