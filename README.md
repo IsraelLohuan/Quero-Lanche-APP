@@ -11,7 +11,7 @@
    <p>
    
    - [Sobre 📖](#sobre-)
-   - [Prints 🎨](#Prints-)
+   - [Prints 🎨](#layout-)
    - [Como Usar 🤔](#como-usar-)
 
    </p>
@@ -23,6 +23,7 @@
 <p>
    Este Projeto tem Como Objetivo A fácil Criação de uma Escala para ver os responsáveis em pagar o lanche durante todas as sextas feiras do ano.
    Com acesso de administrador é possível criar e remover escalas e também adicionar os colaboradores participantes.
+   Os colaboradores da empresa precisa se registrar.
   <br>
 </p>
 
@@ -31,7 +32,10 @@
 <h2 align="center">Prints 🎨</h2>
 
    <p align="center">
-       <img  src="https://imgur.com/ZA2s1UD" alt="License"> 
+       <img  src=".github/splash.png" alt="License" width="200px"> 
+       <img  src=".github/login.png" alt="License" width="200px">
+       <img  src=".github/escala.png" alt="License" width="200px">    
+       <img  src=".github/info.png" alt="License" width="200px">
    </p>
 
 ---
@@ -40,10 +44,10 @@
 
    ```
    - Clone esse repositório:
-   $ git clone https://github.com/rocketseat-education/nlw-06-flutter
+   $ git clone https://github.com/IsraelLohuan/Gestao-escala.git
 
    - Entre no diretório:
-   $ cd nlw-06-flutter
+   $ cd gestao_escala
 
    - Instale as dependências:
    $ flutter pub get
