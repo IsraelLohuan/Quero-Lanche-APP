@@ -9,10 +9,13 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getData().then((email) =>  Get.offAndToNamed('/login', arguments: {'email': email}));
+    Future.delayed(
+      Duration(seconds: 5),
+      () => getEmailSaved().then((email) =>  Get.offAndToNamed('/login', arguments: {'email': email}))
+    );
   }
 
-  Future<String> getData() async {
+  Future<String> getEmailSaved() async {
     String? emailSaved = _getStorage.read(Constants.KEY_EMAIL);
     return emailSaved ?? '';
   }

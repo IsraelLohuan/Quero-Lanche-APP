@@ -5,6 +5,7 @@ import 'package:gestao_escala/application/services/member_service.dart';
 import 'package:gestao_escala/application/ui/loader/loader_mixin.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/application/utils/date_utils.dart';
+import 'package:gestao_escala/application/utils/utils.dart';
 import 'package:gestao_escala/models/day_model.dart';
 import 'package:gestao_escala/models/user_model.dart';
 import 'package:gestao_escala/repositories/scale/i_scale_repository.dart';
@@ -62,7 +63,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     try {
       updateListScale(await scaleRepository.fetchAllDays());
     } catch(e) {
-      _streamDaysScale.addError(e.toString());
+      _streamDaysScale.addError(Utils.messageException(e));
     } 
 
     updateStateActionButton();
@@ -76,7 +77,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     } catch(e) {
       _isLoading(false);
       _messageModel(
-        MessageModel.error(title: 'OPS', message: e.toString())
+        MessageModel.error(title: 'OPS', message: Utils.messageException(e))
       );
     }
 

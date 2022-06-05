@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../application/services/auth_service.dart';
 import '../../application/utils/constants.dart';
+import '../../application/utils/utils.dart';
 import '../../models/user_model.dart';
 
 class LoginController extends GetxController with LoaderMixin, MessagesMixin {
@@ -60,7 +61,7 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
       Get.offNamed('/home');
     } catch(e) {
       loading(false);
-      message(MessageModel.error(title: 'Autenticação', message: e.toString()));
+      message(MessageModel.error(title: 'Autenticação', message: Utils.messageException(e)));
     } 
   }
 

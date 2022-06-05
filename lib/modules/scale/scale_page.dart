@@ -5,7 +5,6 @@ import 'package:gestao_escala/models/user_model.dart';
 import 'package:gestao_escala/modules/scale/components/card_date.dart';
 import 'package:gestao_escala/modules/scale/scale_controller.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class ScalePage extends GetView<ScaleController> {
    
@@ -42,43 +41,53 @@ class ScalePage extends GetView<ScaleController> {
       ),
       floatingActionButton: Obx(() {
         if(controller.isActivateAddScale) {
-          return FloatingActionButton(
-            onPressed: () => showDialogUsers(),
-            child: Icon(Icons.add),
+          return Visibility(
+            visible: controller.authService.isAdmin,
+            child: FloatingActionButton(
+              onPressed: () => showDialogUsers(),
+              child: Icon(Icons.add),
+            ),
           );
         }
 
-        return FloatingActionButton(
-          onPressed: () => showModalBottomSheet(
-            context: context, 
-            builder: (context) {
-              return Container(
-                height: 250,
-                child: Column(
-                  children: [
-                    AlertMessageApp(messageModel: MessageModel(message: 'Você está prestes a remover a escala gerada deste ano! Deseja realizar esta ação?\nObs: O processo pode levar alguns segundos.', type: MessageType.info)),
-                    SizedBox(height: 10,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(onPressed: () {
-                            Navigator.of(context).pop();
-                            controller.deleteScale();
-                          }, icon: Icon(Icons.thumb_up), label: Text('Sim')),
-                          SizedBox(width: 10,),
-                          ElevatedButton.icon(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.thumb_down), label: Text('Não')),
-                        ],
-                      )
-                    ],
-                  ),
-                );
-              }
+        return Visibility(
+          visible: controller.authService.isAdmin,
+          child: FloatingActionButton(
+            onPressed: () => showModalBottomSheet(
+              context: context, 
+              builder: (context) => builderModalContainer(context)
             ),
-          child: Icon(Icons.delete),
+            child: Icon(Icons.delete),
+          ),
         );
       })
     );  
+  }
+
+  Container builderModalContainer(BuildContext context) {
+    return Container(
+      height: 250,
+      child: Column(
+        children: [
+          AlertMessageApp(messageModel: MessageModel(message: 'Você está prestes a remover a escala gerada deste ano! Deseja realizar esta ação?\nObs: O processo pode levar alguns segundos.', type: MessageType.info)),
+          SizedBox(height: 10,),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton.icon(onPressed: () => onClickRemoveScale(context), icon: Icon(Icons.thumb_up), label: Text('Sim')),
+              SizedBox(width: 10,),
+              ElevatedButton.icon(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.thumb_down), label: Text('Não')),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  void onClickRemoveScale(BuildContext context) {
+    Navigator.of(context).pop();
+    controller.deleteScale();
   }
 
   void showDialogGenerateScale() {

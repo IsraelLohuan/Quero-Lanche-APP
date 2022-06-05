@@ -5,8 +5,6 @@ import 'package:gestao_escala/modules/login/login_controller.dart';
 import 'package:get/get.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import '../../application/ui/app_ui_config.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
-
 import '../../application/ui/components/form_field_app.dart';
 
 class LoginPage extends GetView<LoginController> {
@@ -20,8 +18,6 @@ class LoginPage extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 2;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(() {

@@ -7,6 +7,7 @@ class FormFieldApp extends StatelessWidget {
   final String? Function(String? value)? validator;
   final bool? obscureText;
   final TextEditingController controller;
+  final Function(String value)? onChanged;
 
   FormFieldApp({
     Key? key,
@@ -15,6 +16,7 @@ class FormFieldApp extends StatelessWidget {
     required this.controller,
     this.validator,
     this.obscureText,
+    this.onChanged
   }) : super(key: key);
 
   @override
@@ -22,6 +24,7 @@ class FormFieldApp extends StatelessWidget {
     return Container(
       height: 80,
       child: TextFormField(
+          onChanged: onChanged,
           controller: controller,
           obscureText: obscureText ?? false,
           validator: validator,

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.gestao_escala">
    <application
-        android:label="gestao_escala"
+        android:label="Quero Lanche APP"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/../application/utils/extensions.dart';
 
 class Utils {
 
@@ -21,4 +22,6 @@ class Utils {
     }
     return MaterialColor(color.value, swatch);
   }
+
+  static String messageException(data) => data.toString().exception();
 }

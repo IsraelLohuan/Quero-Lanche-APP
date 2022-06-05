@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:gestao_escala/application/ui/components/circle_avatar_app.dart';
 import 'package:gestao_escala/modules/home/home_controller.dart';
 import 'package:get/get.dart';
-
+import '../../application/ui/components/form_field_app.dart';
 import '../scale/scale_controller.dart';
 
 class HomePage extends GetView<HomeController> {
    
   HomePage({Key? key}) : super(key: key);
   
+  final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
   final scaleController = Get.find<ScaleController>();
 
   @override
@@ -42,14 +43,26 @@ class HomePage extends GetView<HomeController> {
                 ),
                 ListTile(
                   leading: Icon(Icons.monetization_on),
-                  title: Text('Meus Lanches Pagos'),
+                  title: Text('Meus Lanches Pagos'.toUpperCase(), style: TextStyle(color: Colors.grey, fontSize: 12,)),
                   subtitle: Text(scaleController.getDataPaid(true).toString()),
                 ),
                 ListTile(
                   leading: Icon(Icons.money_off_outlined),
-                  title: Text('Meus Lanches a Pagar'),
+                  title: Text('Meus Lanches a Pagar'.toUpperCase(), style: TextStyle(color: Colors.grey, fontSize: 12,)),
                   subtitle: Text(scaleController.getDataPaid(false).toString()),
-                )
+                ),
+                Obx(() {
+                  return Visibility(
+                    visible: controller.authService.isAdmin == false,
+                    child: InkWell(
+                      onTap: () => showDialogStaff(context),
+                      child: ListTile(
+                        leading: Icon(Icons.verified_user),
+                        title: Text('Acessar como Gestor'.toUpperCase(), style: TextStyle(color: Colors.grey, fontSize: 12,)),
+                      ),
+                    )
+                  );
+                })
               ],
             );
           }
@@ -85,5 +98,56 @@ class HomePage extends GetView<HomeController> {
         );
       })
     );
+  }
+
+  showDialogStaff(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Login'),
+          content: Container(
+            height: 180,
+            child: Form(
+              key: _keyForm,
+              child: Column(
+                children: [
+                  FormFieldApp(
+                    onChanged: (value) => controller.onChangedFieldLoggedAdmin(value),
+                    prefixIcon: Icon(Icons.person, color: Get.theme.iconTheme.color,),
+                    hintText: 'Senha',
+                    validator: (String? value) => controller.validatorFieldLoggedAdmin(value), 
+                    controller: TextEditingController(),
+                  ),
+                  Container(
+                    width: Get.width,
+                    child: Obx(() {
+                      if(controller.buttonAdmActivate.value) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            if(_keyForm.currentState!.validate()) {
+                              controller.loggedAdmin();
+                            }
+                          }, 
+                          child: Text('Acessar')
+                        );
+                      }
+                      
+                      return ElevatedButton(
+                        onPressed: null, 
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.grey)
+                        ),
+                        child: const Text('Acessar'),
+                      );
+                    }),
+                  )
+                ],
+              ),
+            ),
+          ),    
+        );
+      }
+    );  
   }
 }
