@@ -17,6 +17,7 @@ class AuthService extends GetxService {
 
   void logout() {
     _userModel = null;
-   // Get.offAllNamed('/');
+    _isAdmin.value = false;
+    Get.offAllNamed('/');
   }
 }

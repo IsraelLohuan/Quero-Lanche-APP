@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../application/services/auth_service.dart';
 import '../../application/utils/constants.dart';
+import '../../application/utils/extensions.dart';
 import '../../application/utils/utils.dart';
 import '../../models/user_model.dart';
 
@@ -38,6 +39,9 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
   }
 
   Future<void> auth(String name, String email, String password) async {
+
+    email = GetUtils.removeAllWhitespace(email);
+
     try {
       loading(true);
 
@@ -53,7 +57,7 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
       loading(false);
 
       if(isSavedEmail.value) {
-        _getStorage.write(Constants.KEY_EMAIL, email);
+        _getStorage.write(Constants.KEY_EMAIL, user.email);
       } else {
         _getStorage.remove(Constants.KEY_EMAIL);
       }
@@ -68,4 +72,17 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
   void onTapActionTitle() => isLogin.value = !isLogin.value;
   void tooglePassword() => obscureText.value = !obscureText.value;
   void toogleEmailSaved(bool? result) => isSavedEmail.value = result!;
+
+  String? validateEmail(String? value) {
+
+    if(value!.isEmpty) {
+      return 'Campo obrigatório, favor preencher!';
+    }
+
+    if(!GetUtils.isEmail(GetUtils.removeAllWhitespace(value))) {
+      return 'E-mail inválido, favor preencher novamente!';
+    }
+
+    return null;
+  }
 }
