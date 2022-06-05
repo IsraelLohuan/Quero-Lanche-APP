@@ -52,7 +52,7 @@
    - Versão utilizada: Flutter 3.0.1 & Dart 2.17.1
    
    - Clone esse repositório:
-   $ git clone https://github.com/IsraelLohuan/Gestao-escala.git
+   $ git clone https://github.com/IsraelLohuan/Quero-Lanche-APP.git
 
    - Entre no diretório:
    $ cd gestao_escala
