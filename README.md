@@ -1,16 +1,58 @@
-# gestao_escala
+<p align="center">
+    <img alt="Quero Lanche" src=".github/payflow-logo.png" width="200px">
+</p>
 
-A new Flutter project.
+<p align="center">
+  <img  src="https://img.shields.io/static/v1?label=license&message=MIT&color=000000&labelColor=8257e5" alt="License">
+</p>
 
-## Getting Started
+<h2 align="center">Tópicos 📋</h2>
 
-This project is a starting point for a Flutter application.
+   <p>
+   
+   - [Sobre 📖](#sobre-)
+   - [Prints 🎨](#Prints-)
+   - [Como Usar 🤔](#como-usar-)
 
-A few resources to get you started if this is your first Flutter project:
+   </p>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<h2 align="center">Sobre 📖</h2>
+   
+<p>
+   Este Projeto tem Como Objetivo A fácil Criação de uma Escala para ver os responsáveis em pagar o lanche durante todas as sextas feiras do ano.
+   Com acesso de administrador é possível criar e remover escalas e também adicionar os colaboradores participantes.
+  <br>
+</p>
+
+---
+
+<h2 align="center">Prints 🎨</h2>
+
+   <p align="center">
+       <img  src="https://imgur.com/ZA2s1UD" alt="License"> 
+   </p>
+
+---
+
+<h2 align="center">Como Usar 🤔</h2>
+
+   ```
+   - Clone esse repositório:
+   $ git clone https://github.com/rocketseat-education/nlw-06-flutter
+
+   - Entre no diretório:
+   $ cd nlw-06-flutter
+
+   - Instale as dependências:
+   $ flutter pub get
+
+   - Inicie o app: 
+   $ flutter run
+   ```
+
+---
+
+   >Esse projeto foi desenvolvido com ❤️ por Israel Lohuan
+---
