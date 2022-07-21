@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">986035939393-eohbqnqt6teud4mlm4006f355ab093fp.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">986035939393</string>
+    <string name="google_api_key" translatable="false">AIzaSyDgq_fRLn5TCrv6Q6yAqF0W84GYqXicIuQ</string>
+    <string name="google_app_id" translatable="false">1:986035939393:android:4019c2766de9a725b2bec0</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDgq_fRLn5TCrv6Q6yAqF0W84GYqXicIuQ</string>
+    <string name="google_storage_bucket" translatable="false">gestao-escala.appspot.com</string>
+    <string name="project_id" translatable="false">gestao-escala</string>
+</resources>

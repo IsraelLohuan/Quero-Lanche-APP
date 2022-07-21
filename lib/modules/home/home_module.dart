@@ -1,5 +1,6 @@
 import 'package:gestao_escala/modules/home/home_bindings.dart';
 import 'package:gestao_escala/modules/home/home_page.dart';
+import 'package:gestao_escala/modules/home/tab_scale/scale_member_page.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import '../../application/modules/module.dart';
 
@@ -10,8 +11,12 @@ class HomeModule extends Module {
       name: '/home', 
       page: () => HomePage(),
       bindings: [
-        HomeBindings()
+        HomeBindings(),
       ]
+    ),
+    GetPage(
+      name: '/scale_members', 
+      page: () => ScaleMemberPage()
     )
   ];
 }

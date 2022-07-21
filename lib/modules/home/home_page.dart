@@ -2,9 +2,9 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:gestao_escala/application/ui/components/circle_avatar_app.dart';
 import 'package:gestao_escala/modules/home/home_controller.dart';
+import 'package:gestao_escala/modules/home/tab_scale/scale_controller.dart';
 import 'package:get/get.dart';
 import '../../application/ui/components/form_field_app.dart';
-import '../scale/scale_controller.dart';
 
 class HomePage extends GetView<HomeController> {
    

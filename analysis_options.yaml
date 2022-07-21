@@ -10,3 +10,5 @@ linter:
     sized_box_for_whitespace: false
     prefer_const_constructors_in_immutables: false
     constant_identifier_names: false
+    invalid_use_of_protected_member: false
+    
