@@ -107,7 +107,6 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
 
     for(var user in users) {
       final data = currentList.firstWhereOrNull((data) => data.uid == user.uid);
-
       if(data != null) newList.add(data);
     }
 
