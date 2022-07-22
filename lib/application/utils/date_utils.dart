@@ -1,16 +1,15 @@
 class DateUtils {
 
   static List<DateTime> getAllfridayDayFromYear() {
-
-    final yearCurrent = DateTime.now();
+    final dateCurrent = DateTime.now();
     List<DateTime> dates = [];
 
-    for(int month = 1; month <= 12; month ++) {
-      final daysFromMonth = getDaysInMonth(yearCurrent.year, month);
+    for(int month = dateCurrent.month; month <= 12; month ++) {
+      final daysFromMonth = getDaysInMonth(dateCurrent.year, month);
         
       for(int i = 1; i <= daysFromMonth; i ++) {
-        final date = DateTime(yearCurrent.year, month, i);
-        if(date.weekday == DateTime.friday) {
+        final date = DateTime(dateCurrent.year, month, i);
+        if(date.weekday == DateTime.friday && date.isAfter(dateCurrent)) {
           dates.add(date);  
         }
       }
