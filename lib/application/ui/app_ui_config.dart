@@ -8,6 +8,7 @@ class AppUiConfig {
   static String get title => 'Gestão de Escala';
   static Color get colorMain => Color.fromRGBO(49, 43, 70, 1);
   static Color get colorBackground => Colors.white;
+  static Color get colorRed => Color.fromARGB(255, 192, 9, 64);
 
   static ThemeData get theme => ThemeData(
     scaffoldBackgroundColor: Colors.white,

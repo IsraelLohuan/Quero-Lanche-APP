@@ -19,23 +19,22 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
 
   final StreamController<List<DayModel>> _streamDaysScale = StreamController<List<DayModel>>.broadcast();
 
-  Stream get streamDaysScale => _streamDaysScale.stream;
-
+  Rx<List<UserModel>> userRx = Rx<List<UserModel>>([]);
   List<UserModel> allUsers = [];
   List<DayModel>? daysScale;
 
-  final RxList<UserModel> _usersSelected = <UserModel>[].obs;
   final RxBool _isStateButtonCretaeScale = true.obs;
   final RxBool _isLoading = false.obs;
   final _messageModel = Rxn<MessageModel>();
 
   ScaleController({required this.scaleRepository, required this.memberService, required this.authService});
+ 
+  bool isPaid(DayModel dayInfo)   => dayInfo.day.isBefore(DateTime.now()); 
+  Stream get streamDaysScale      => _streamDaysScale.stream;
+  bool get isActivateAddScale     => _isStateButtonCretaeScale.value;
+  String get usersSelectedTotal   => usersSelected.length.toString();
 
-  String get usersSelectedTotal => _usersSelected.length.toString();
-  bool get isActivateAddScale => _isStateButtonCretaeScale.value;
-
-  bool userInList(UserModel user) => _usersSelected.contains(user);
-  bool isPaid(DayModel dayInfo) => dayInfo.day.isBefore(DateTime.now()); 
+  List<UserModel> get usersSelected => userRx.value.where((user) => user.isSelected).toList();
 
   void updateStateActionButton() {
     if(daysScale != null) {
@@ -87,7 +86,6 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
 
   Future<List<UserModel>> fetchAllUsers() async {
     allUsers = await memberService.fetchAll(); 
-    _usersSelected.clear();
 
     if(allUsers.length == 1) {
       throw Exception('Não é possível continuar com a operação, necessário no mínimo 2 Usuários cadastrados :(');
@@ -96,27 +94,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     return allUsers;
   }
 
-  void onChangedSwitch(bool result, UserModel user) {
-    result == false ?  _usersSelected.remove(user) : _usersSelected.add(user);
-  }
-
-  void rebuildListOrder(List<UserModel> users) {
-    List<UserModel> newList = [];
-    // ignore: invalid_use_of_protected_member
-    List<UserModel> currentList = _usersSelected.value;
-
-    for(var user in users) {
-      final data = currentList.firstWhereOrNull((data) => data.uid == user.uid);
-      if(data != null) newList.add(data);
-    }
-
-    if(newList.isNotEmpty) {
-      _usersSelected.clear();
-      _usersSelected.addAll(newList);  
-    }
-  }
-
-  List<DayModel> generateScale() {
+  List<DayModel> _generateScale() {
     final fridays = DateUtils.getAllfridayDayFromYear();
 
     List<DayModel> daysModel = [];
@@ -124,8 +102,8 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     int index = 0;
 
     for(DateTime day in fridays) {
-      daysModel.add(DayModel(day: day, userResponsible: _usersSelected[index]));
-      index = (index >= _usersSelected.length - 1) ? 0 : index + 1;
+      daysModel.add(DayModel(day: day, userResponsible: usersSelected[index]));
+      index = (index >= usersSelected.length - 1) ? 0 : index + 1;
     } 
 
     return daysModel;
@@ -136,7 +114,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
       throw Exception('Necessário no mínimo 2 Usuários selecionados!');
     }
 
-    await scaleRepository.createScale(generateScale());
+    await scaleRepository.createScale(_generateScale());
     await fetchScale();
 
     return true;

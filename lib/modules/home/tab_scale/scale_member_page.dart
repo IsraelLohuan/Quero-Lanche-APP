@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestao_escala/application/ui/app_ui_config.dart';
 import 'package:gestao_escala/modules/home/tab_scale/scale_controller.dart';
 import 'package:get/get.dart';
 import '../../../application/ui/components/alert_message_app.dart';
@@ -19,7 +20,7 @@ class ScaleMemberPage extends StatefulWidget {
 class _ScaleMemberPageState extends State<ScaleMemberPage> {
   final controller = Get.find<ScaleController>();
 
-  List<UserModel>? users;
+  List<UserModel> get users => controller.userRx.value;
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +59,34 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Colaboradores'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context, 
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('Info'),
+                      content: Text('Caso queira alterar a ordem de colaboradores, pressione o card e altere a posição!'),
+                    );
+                  }
+                );
+              }, 
+              icon: Icon(
+                Icons.info_sharp,
+                color: AppUiConfig.colorRed,
+              )
+            )
+          ],
         ),
         floatingActionButton: Obx(() {
           return ElevatedButton.icon(
             onPressed: widget.onTapSave,
             icon: Icon(Icons.check),
-            label: Text(controller.usersSelectedTotal));
+            label: Text(controller.usersSelectedTotal)
+          );
         }),
-        body: users == null ? _builderFuture() : _builderList()
+        body: users.isEmpty ? _builderFuture() : _builderList()
       ),
     );
   }
@@ -89,7 +110,9 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
           );
         }
 
-        users = snapshot.data!;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          controller.userRx.value = snapshot.data!;  
+        });
 
         return _builderList();
       }
@@ -97,33 +120,31 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
   }
 
   Widget _builderList() {
-    return ReorderableListView.builder(
-      onReorder: (oldIndex, newIndex) {
-        setState(() {
+    return Obx(() {
+      return ReorderableListView.builder(
+        onReorder: (oldIndex, newIndex) {
           if(newIndex > oldIndex) {
             newIndex = newIndex - 1;
           }
-          final user = users!.removeAt(oldIndex);
-          users!.insert(newIndex, user);
-          controller.rebuildListOrder(users!);
-        });
-      },
-      itemCount: users!.length,
-      itemBuilder: (context, index) {
-        final user = users![index];
+          final user = users.removeAt(oldIndex);
+          users.insert(newIndex, user);
+        },
+        itemCount: users.length,
+        itemBuilder: (context, index) {
+          final user = users[index];
 
-        return Container(
-          key: ValueKey(user),
-          child: Obx(() {
-            return SwitchListTile(
-              value: controller.userInList(user),
-              onChanged: (bool value) => controller.onChangedSwitch(value, user),
-              title: Text(
-                user.displayName.toUpperCase(),
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+          return Container(
+            key: ValueKey(user),
+            child: SwitchListTile(
+              value: user.isSelected,
+                onChanged: (bool value) => setState(() => user.isSelected = value),
+                title: Text(
+                  user.displayName.toUpperCase(),
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                )
               )
             );
-          }),
+          }
         );
       }
     );
