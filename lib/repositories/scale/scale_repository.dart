@@ -30,14 +30,24 @@ class ScaleRepository implements IScaleRepository {
   Future<List<DayModel>> fetchAllDays() async {
     final CollectionReference accountRef = FirebaseFirestore.instance.collection(collection);
 
-    QuerySnapshot<Object?> snapshot = await accountRef.orderBy('day').get(); 
+    QuerySnapshot<Object?> snapshot = await accountRef
+      .orderBy('day')
+      .where('day', isGreaterThanOrEqualTo: DateTime.now())
+      .get(); 
 
     if(snapshot.docs.isNotEmpty) {
-      List<DayModel> data = snapshot.docs.map<DayModel>((json) => DayModel.fromJson(json.data() as Map<String, dynamic>)).toList();
-
-      return data;
+      return snapshot.docs.map<DayModel>((json) {
+        final jsonMap = json.data() as Map<String, dynamic>..putIfAbsent('id', () => json.id);
+        return DayModel.fromJson(jsonMap);
+      }).toList();
     } 
 
     return [];
+  }
+  
+  @override
+  Future<void> updateScale({required String id, required Map<String, Object> data}) async {
+    final CollectionReference accountRef = FirebaseFirestore.instance.collection(collection);
+    await accountRef.doc(id).update(data);
   }
 }

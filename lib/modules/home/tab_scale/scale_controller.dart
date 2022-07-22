@@ -16,33 +16,37 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   final IScaleRepository scaleRepository;
   final MemberService memberService;
   final AuthService authService;
-
-  final StreamController<List<DayModel>> _streamDaysScale = StreamController<List<DayModel>>.broadcast();
-
-  Rx<List<UserModel>> userRx = Rx<List<UserModel>>([]);
-  List<UserModel> allUsers = [];
-  List<DayModel>? daysScale;
-
-  final RxBool _isStateButtonCretaeScale = true.obs;
+  final RxBool _isStateButtonCreateScale = true.obs;
   final RxBool _isLoading = false.obs;
   final _messageModel = Rxn<MessageModel>();
+  final StreamController<List<DayModel>?> _streamDaysScale = StreamController<List<DayModel>?>.broadcast();
+  final Rx<DayModel?> _daySelected = Rx<DayModel?>(null);
+  final Rx<List<UserModel>> userRx = Rx<List<UserModel>>([]);
+  final List<UserModel> allUsers = [];
+  List<DayModel>? daysScale;
 
-  ScaleController({required this.scaleRepository, required this.memberService, required this.authService});
+  bool _isPaid(DayModel dayInfo)     => dayInfo.day.isBefore(DateTime.now()); 
+  Stream get streamDaysScale         => _streamDaysScale.stream;
+  bool get isActivateAddScale        => _isStateButtonCreateScale.value;
+  String get usersSelectedTotal      => usersSelected.length.toString();
+  List<UserModel> get usersSelected  => userRx.value.where((user) => user.isSelected).toList();
+  DayModel? get daySelected          => _daySelected.value;
+
+  ScaleController({
+    required this.scaleRepository, 
+    required this.memberService, 
+    required this.authService
+  });
  
-  bool isPaid(DayModel dayInfo)   => dayInfo.day.isBefore(DateTime.now()); 
-  Stream get streamDaysScale      => _streamDaysScale.stream;
-  bool get isActivateAddScale     => _isStateButtonCretaeScale.value;
-  String get usersSelectedTotal   => usersSelected.length.toString();
-
-  List<UserModel> get usersSelected => userRx.value.where((user) => user.isSelected).toList();
+  void setDaySelected(DayModel? user) => _daySelected.value = user;
 
   void updateStateActionButton() {
     if(daysScale != null) {
-      _isStateButtonCretaeScale.value = daysScale!.isEmpty;
+      _isStateButtonCreateScale.value = daysScale!.isEmpty;
       return;
     }
 
-    _isStateButtonCretaeScale.value = true;
+    _isStateButtonCreateScale.value = true;
   }
 
   @override
@@ -85,7 +89,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   }
 
   Future<List<UserModel>> fetchAllUsers() async {
-    allUsers = await memberService.fetchAll(); 
+    allUsers.addAll(await memberService.fetchAll()); 
 
     if(allUsers.length == 1) {
       throw Exception('Não é possível continuar com a operação, necessário no mínimo 2 Usuários cadastrados :(');
@@ -126,9 +130,40 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     }
 
     final values = daysScale?.where((info) {
-      return info.userResponsible.displayName == authService.user.displayName && isPaid(info) == value;
+      return info.userResponsible.displayName == authService.user.displayName && _isPaid(info) == value;
     });
 
     return values?.length ?? 0;
+  }
+
+  Future executeChangeBetweenUsers(DayModel daySelectForChanged) async {
+    try {
+      _isLoading(true);
+      await _updateDayModel(daySelected!, newUser: daySelectForChanged.toJson()['user']);
+      await _updateDayModel(daySelectForChanged, newUser: daySelected!.toJson()['user']);
+      setDaySelected(null);
+      fetchScale();
+      _isLoading(false);
+    } catch(error) {
+      _isLoading(false);
+      _messageModel(
+        MessageModel.error(
+          title: 'Info',
+          message: 'Algo de inesperado ocorreu ao realizar atualização!'
+        )
+      );
+    } 
+  }
+
+  Future _updateDayModel(DayModel day, {required Map newUser}) async {
+    final json = <String, Object>{
+      'day': day.toJson()['day'],
+      'user': newUser
+    };
+
+    await scaleRepository.updateScale(
+      id: day.id, 
+      data: json
+    );
   }
 }

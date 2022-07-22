@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gestao_escala/application/ui/components/alert_message_app.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
+import 'package:gestao_escala/application/utils/extensions.dart';
 import 'package:gestao_escala/modules/home/tab_scale/scale_controller.dart';
 import 'package:get/get.dart';
 import 'components/card_date.dart';
 
-class ScalePage extends GetView<ScaleController> {
+class ScaleListPage extends GetView<ScaleController> {
    
-  const ScalePage({Key? key}) : super(key: key);
+  const ScaleListPage({Key? key}) : super(key: key);
    
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,11 @@ class ScalePage extends GetView<ScaleController> {
 
           return ListView.builder(
             itemCount: controller.daysScale!.length,
-            itemBuilder: (context, index) => CardDate(dayInfo: controller.daysScale![index])
+            itemBuilder: (context, index) {
+              return CardDate(
+                dayInfo: controller.daysScale![index]
+              );
+            }
           );
         },
       ),
@@ -108,7 +113,7 @@ class ScalePage extends GetView<ScaleController> {
               builder: (context, snapshot) {
                 if(snapshot.hasError) {
                   return AlertMessageApp(
-                    messageModel: MessageModel(message: snapshot.error.toString(), type: MessageType.error),
+                    messageModel: MessageModel(message: snapshot.error.toString().exception(), type: MessageType.error),
                   );
                 }
 

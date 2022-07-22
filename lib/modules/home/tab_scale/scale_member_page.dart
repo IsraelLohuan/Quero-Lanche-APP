@@ -28,30 +28,19 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
       onWillPop: () async {
         bool result = false;
 
-        await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Atenção'),
-              content: Text('Deseja realmente sair? o processo de geração da escala será cancelado!'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    result = true;
-                    Navigator.of(context).pop();
-                  }, 
-                  child: Text('Sim')
-                ),
-                TextButton(
-                  onPressed: () {
-                    result = false;
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Não')
-                )
-              ],
-            );
-          }
+        await Get.defaultDialog(
+          title: 'Atenção',
+          content: Text(
+            'Caso queira alterar a ordem de colaboradores, pressione o card e altere a posição!'
+          ),
+          onCancel: () => result = false,
+          onConfirm: () {
+            result = true;
+            Get.back();
+          },
+          textCancel: 'Cancelar',
+          textConfirm: 'Sair',
+          confirmTextColor: Colors.white
         );
 
         return result;
@@ -62,14 +51,9 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
           actions: [
             IconButton(
               onPressed: () {
-                showDialog(
-                  context: context, 
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text('Info'),
-                      content: Text('Caso queira alterar a ordem de colaboradores, pressione o card e altere a posição!'),
-                    );
-                  }
+                Get.defaultDialog(
+                  title: 'Info',
+                  content: Text('Caso queira alterar a ordem de colaboradores, pressione o card e altere a posição!')
                 );
               }, 
               icon: Icon(
