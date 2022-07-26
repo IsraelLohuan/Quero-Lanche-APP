@@ -4,8 +4,14 @@ class UserModel {
   late String uid;
   late String password;
   late bool isSelected;
-  
-  UserModel({required this.email, required  this.displayName, required this.uid, required this.password});
+  bool? isAdmin;
+
+  UserModel({
+    required this.email, 
+    required this.displayName, 
+    required this.uid, 
+    required this.password
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -13,6 +19,7 @@ class UserModel {
     uid = json['uid'];
     password = json['password'];
     isSelected = false;
+    isAdmin = json['isAdmin'];
   }
 
   Map<String, dynamic> toJson() {
@@ -20,7 +27,8 @@ class UserModel {
       'email': email,
       'displayName': displayName,
       'uid': uid,
-      'password': password
+      'password': password,
+      'isAdmin': isAdmin
     };
   }
 }

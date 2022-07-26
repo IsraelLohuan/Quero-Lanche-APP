@@ -19,5 +19,5 @@ class DayModel {
       'day': day,
       'user': userResponsible.toJson(),
     };
-  }
+  } 
 }

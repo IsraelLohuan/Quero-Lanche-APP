@@ -1,7 +1,7 @@
 
 import 'dart:async';
-import 'package:gestao_escala/application/services/auth_service.dart';
-import 'package:gestao_escala/application/services/member_service.dart';
+import 'package:gestao_escala/application/services/auth/auth_service.dart';
+import 'package:gestao_escala/application/services/member/member_service.dart';
 import 'package:gestao_escala/application/ui/loader/loader_mixin.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/application/utils/date_utils.dart';
@@ -22,7 +22,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   final StreamController<List<DayModel>?> _streamDaysScale = StreamController<List<DayModel>?>.broadcast();
   final Rx<DayModel?> _daySelected = Rx<DayModel?>(null);
   final Rx<List<UserModel>> userRx = Rx<List<UserModel>>([]);
-  final List<UserModel> allUsers = [];
+  List<UserModel> allUsers = [];
   List<DayModel>? daysScale;
 
   bool _isPaid(DayModel dayInfo)     => dayInfo.day.isBefore(DateTime.now()); 
@@ -31,7 +31,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   String get usersSelectedTotal      => usersSelected.length.toString();
   List<UserModel> get usersSelected  => userRx.value.where((user) => user.isSelected).toList();
   DayModel? get daySelected          => _daySelected.value;
-
+ 
   ScaleController({
     required this.scaleRepository, 
     required this.memberService, 
@@ -89,7 +89,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   }
 
   Future<List<UserModel>> fetchAllUsers() async {
-    allUsers.addAll(await memberService.fetchAll()); 
+    allUsers = await memberService.fetchAll(); 
 
     if(allUsers.length == 1) {
       throw Exception('Não é possível continuar com a operação, necessário no mínimo 2 Usuários cadastrados :(');

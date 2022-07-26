@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:gestao_escala/application/services/auth_service.dart';
+import 'package:gestao_escala/application/services/app/app_service.dart';
+import 'package:gestao_escala/application/services/auth/auth_service.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/application/utils/constants.dart';
 import 'package:gestao_escala/modules/home/tab_scale/scale_list_page.dart';
@@ -12,6 +13,7 @@ class HomeController extends GetxController with MessagesMixin {
 
   static const NAVIGATOR_KEY = 1;
 
+  final AppService appService;
   final AuthService authService;
   final message = Rxn<MessageModel>();
 
@@ -27,8 +29,11 @@ class HomeController extends GetxController with MessagesMixin {
 
   HomeController({
     required this.authService, 
+    required this.appService
   });
 
+  String get yearCurrent => DateTime.now().year.toString();
+  String get versionApp  => appService.versionApp;
   UserModel get user => authService.user;
 
   final RxInt indexTab = RxInt(0);

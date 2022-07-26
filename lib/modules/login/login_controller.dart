@@ -1,4 +1,4 @@
-import 'package:gestao_escala/application/services/auth_service.dart';
+import 'package:gestao_escala/application/services/auth/auth_service.dart';
 import 'package:gestao_escala/application/ui/loader/loader_mixin.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/repositories/login/i_login_repository.dart';
@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../application/services/auth_service.dart';
+import '../../application/services/auth/auth_service.dart';
 import '../../application/utils/constants.dart';
 import '../../application/utils/extensions.dart';
 import '../../application/utils/utils.dart';

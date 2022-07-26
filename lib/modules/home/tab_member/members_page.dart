@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestao_escala/application/services/member_service.dart';
+import 'package:gestao_escala/application/services/member/member_service.dart';
 import 'package:gestao_escala/modules/home/home_controller.dart';
 import 'package:get/get.dart';
 import '../../../models/user_model.dart';

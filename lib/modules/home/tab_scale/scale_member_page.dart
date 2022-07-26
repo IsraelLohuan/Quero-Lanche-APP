@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../application/ui/components/alert_message_app.dart';
 import '../../../application/ui/messages/messages_mixin.dart';
 import '../../../models/user_model.dart';
+import 'package:gestao_escala/application/utils/extensions.dart';
 
 class ScaleMemberPage extends StatefulWidget {
   late final VoidCallback onTapSave;
@@ -82,7 +83,7 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
         if(snapshot.hasError) {
           return AlertMessageApp(
             messageModel: MessageModel(
-              message: snapshot.error.toString(),
+              message: snapshot.error.toString().exception(),
               type: MessageType.error
             ),
           );
@@ -118,6 +119,7 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
           final user = users[index];
 
           return Container(
+            padding: EdgeInsets.all(20),
             key: ValueKey(user),
             child: SwitchListTile(
               value: user.isSelected,

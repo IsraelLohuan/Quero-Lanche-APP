@@ -19,7 +19,7 @@ class ScaleListPage extends GetView<ScaleController> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {  
           if(snapshot.hasError) {
             return AlertMessageApp(
-              messageModel: MessageModel(message: snapshot.error.toString(), type: MessageType.info)
+              messageModel: MessageModel(message: snapshot.error.toString().exception(), type: MessageType.info)
             );
           }
 

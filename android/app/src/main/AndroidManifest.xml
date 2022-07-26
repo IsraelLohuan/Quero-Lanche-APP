@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.gestao_escala">
+    package="com.grupohegidio.gestao_escala_lanche">
    <application
         android:label="Quero Lanche APP"
         android:name="${applicationName}"

@@ -22,7 +22,9 @@ dependencies:
   bottom_navy_bar: ^6.0.0
   in_date_utils: ^1.0.3
   intl: ^0.17.0
-  
+  package_info_plus: ^1.4.3
+  shared_preferences: ^2.0.15
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -36,5 +38,6 @@ flutter:
   assets:
     - assets/images/logo-app.png
     - assets/images/google.png
+    - assets/images/ghe.png
 
  

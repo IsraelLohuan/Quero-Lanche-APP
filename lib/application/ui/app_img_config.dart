@@ -6,4 +6,5 @@ class AppImgConfig {
 
   static get logo => '${path}logo-app.png';
   static get google => '${path}google.png';
+  static get logoGroup => '${path}ghe.png';
 }

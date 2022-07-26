@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.gestao_escala"
+    package="com.grupohegidio.gestao_escala_lanche"
     android:versionCode="1"
     android:versionName="1.0.0" >
 
@@ -24,7 +24,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Quero Lanche APP" >
         <activity
-            android:name="br.com.gestao_escala.MainActivity"
+            android:name="com.grupohegidio.gestao_escala_lanche.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
             android:hardwareAccelerated="true"
@@ -80,7 +80,7 @@
 
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"
-            android:authorities="br.com.gestao_escala.firebaseinitprovider"
+            android:authorities="com.grupohegidio.gestao_escala_lanche.firebaseinitprovider"
             android:directBootAware="true"
             android:exported="false"
             android:initOrder="100" />

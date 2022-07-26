@@ -1,5 +1,6 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:gestao_escala/application/ui/app_img_config.dart';
 import 'package:gestao_escala/application/ui/components/circle_avatar_app.dart';
 import 'package:gestao_escala/modules/home/home_controller.dart';
 import 'package:gestao_escala/modules/home/tab_scale/scale_controller.dart';
@@ -62,7 +63,49 @@ class HomePage extends GetView<HomeController> {
                       ),
                     )
                   );
-                })
+                }),
+                ListTile(
+                  leading: Icon(Icons.info),
+                  title: Text('Sobre'.toUpperCase(), style: TextStyle(color: Colors.grey, fontSize: 12),),
+                  onTap: () {
+                    showDialog(
+                      context: context, 
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Image.asset(AppImgConfig.logoGroup, width: 150, height: 150,),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(child: Text('Quero Lanche')),
+                              SizedBox(height: 8,),
+                              Text(
+                                'Aplicativo para definição de Escala.',
+                                style: TextStyle(color: Colors.grey, fontSize: 14),
+                              ),
+                              SizedBox(height: 14,),
+                              Center(
+                                child: Text(
+                                  'Copyright @${controller.yearCurrent}, All Rights Reserved.\nPowered by Grupo H. Egídio',
+                                  style: TextStyle(color: Colors.grey, fontSize: 8),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              SizedBox(height: 8,),
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: Text(
+                                  'Versão: ${controller.versionApp}',
+                                  style: TextStyle(color: Colors.grey, fontSize: 8),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                    );
+                  },
+                )
               ],
             );
           }

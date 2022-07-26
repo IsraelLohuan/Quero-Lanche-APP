@@ -1,4 +1,4 @@
-br.com.gestao_escala
+com.grupohegidio.gestao_escala_lanche
 attr activityAction
 attr activityName
 attr alpha
