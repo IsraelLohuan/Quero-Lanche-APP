@@ -34,7 +34,7 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
     try {
       email = GetUtils.removeAllWhitespace(email);
       loading(true);
-      await authentication.auth(
+      await authentication(
         AuthenticationParams(name: name, email: email, password: password),
         isSavedEmail.value
       );

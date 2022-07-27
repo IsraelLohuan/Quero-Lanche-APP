@@ -13,7 +13,7 @@ class Authentication {
     required this.cacheService
   });
 
-  Future<UserModel> auth(AuthenticationParams params, bool isSavedEmail) async {
+  Future<UserModel> call(AuthenticationParams params, bool isSavedEmail) async {
     final user = await repository.login(params.email, params.password);
     isSavedEmail ? cacheService.saveUser('key', user.email) : cacheService.removeUser('key');
     return user;
