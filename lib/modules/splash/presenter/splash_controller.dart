@@ -1,22 +1,20 @@
-import 'package:gestao_escala/application/utils/constants.dart';
+
+import 'package:gestao_escala/modules/splash/domain/usecases/get_email_saved.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class SplashController extends GetxController {
+  final GetEmailSaved getEmailSaved;
  
-  final _getStorage = GetStorage();
+  SplashController(this.getEmailSaved);
 
   @override
   void onInit() {
     super.onInit();
     Future.delayed(
       Duration(seconds: 5),
-      () => getEmailSaved().then((email) =>  Get.offAndToNamed('/login', arguments: {'email': email}))
+      () => getEmailSaved().then((email) =>  print(email))
     );
   }
-
-  Future<String> getEmailSaved() async {
-    String? emailSaved = _getStorage.read(Constants.KEY_EMAIL);
-    return emailSaved ?? '';
-  }
 }
+
+//Get.offAndToNamed('/login', arguments: {'email': email})
