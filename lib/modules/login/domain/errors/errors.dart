@@ -1,20 +1,23 @@
-abstract class Failure implements Exception {}
+abstract class Failure implements Exception {
+  String get messageError;
+}
 
-class FailureCache implements Failure {}
+class FailureRequest implements Failure {
+  @override
+  String get messageError => 'Algo inesperado ocorreu ao realizar requisição :|';
+}
 
-class FailureRequest implements Failure {}
+class FailureUnexpected implements FailureRequest {
+  @override
+  String get messageError => 'Algo de inesperado ocorreu ao realizar requisição :|';
+}
 
-class FailureUnexpected implements FailureRequest {}
+class FailureEmailNotFound implements FailureRequest {
+  @override
+  String get messageError => 'Ops! Email não encontrado';
+}
 
-class FailureEmailNotFound implements FailureRequest {}
-
-class FailureInvalidCredentials implements FailureRequest {}
-
-extension FailureExtension on Failure {
-  String buildMessageError() {
-    if(this is FailureRequest) return 'Falha na requisição';
-    if(this is FailureUnexpected) return 'Erro inesperado';
-    if(this is FailureEmailNotFound) return 'Email não encontrado';
-    return 'Credenciais inválidas';
-  }
+class FailureInvalidCredentials implements FailureRequest {
+  @override
+  String get messageError => 'Usuário ou senha inválidos!';
 }

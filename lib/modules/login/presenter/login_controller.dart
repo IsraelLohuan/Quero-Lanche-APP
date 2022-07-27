@@ -31,30 +31,20 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
   }
 
   Future<void> auth(String name, String email, String password) async {
-    email = GetUtils.removeAllWhitespace(email);
-
-    loading(true);
-
-    final either = await authentication.auth(
-      AuthenticationParams(
-        name: name, 
-        email: email, 
-        password: password
-      ),
-      isSavedEmail.value
-    );
-
-    loading(false);
-
-    final result = either.fold((l) => l, (r) => r);
-
-    if(result is UserModel) {
-      Get.offNamed('/home');
-    } else {
+    try {
+      email = GetUtils.removeAllWhitespace(email);
+      loading(true);
+      await authentication.auth(
+        AuthenticationParams(name: name, email: email, password: password),
+        isSavedEmail.value
+      );
+      loading(false);
+    } on Failure catch(e) {
+      loading(false);
       message(
         MessageModel.error(
           title: 'Autenticação', 
-          message: 'Error'
+          message: e.messageError
         )
       );
     }

@@ -1,5 +1,4 @@
-import 'package:dartz/dartz.dart';
-import 'package:gestao_escala/modules/login/domain/errors/errors.dart';
+
 import 'package:gestao_escala/modules/login/domain/services/i_user_cache_service.dart';
 import 'package:gestao_escala/modules/login/infra/datasources/i_cache_datasource.dart';
 
@@ -9,22 +8,22 @@ class UserCacheServiceImpl implements IUserCacheService {
   UserCacheServiceImpl(this.cacheDataSource);
 
   @override
-  Either<Failure, bool> saveUser(String key, String email) {
+  bool saveUser(String key, String email) {
     try {
       cacheDataSource.save(key, email); 
-      return Right(true);
+      return true;
     } catch(_) {
-      return Left(FailureCache());
+      return false;
     }
   }
 
   @override
-  Either<Failure, bool> removeUser(String key) {
+   bool removeUser(String key) {
     try {
       cacheDataSource.delete(key);
-      return Right(true);
+      return true;
     } catch(_) {
-      return Left(FailureCache());
+      return false;
     }
   }
 }
