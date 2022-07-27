@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestao_escala/application/ui/app_img_config.dart';
+import 'package:gestao_escala/modules/shared/presenter/app_img_config.dart';
 import 'package:gestao_escala/modules/splash/splash_controller.dart';
 import 'package:get/get.dart';
 
