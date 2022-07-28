@@ -7,6 +7,7 @@ import 'package:gestao_escala/modules/login/external/datasources/authentication_
 import 'package:gestao_escala/modules/login/infra/datasources/i_authentication_datasource.dart';
 import 'package:gestao_escala/modules/login/infra/repositories/authentication_repository_impl.dart';
 import 'package:gestao_escala/modules/login/infra/services/user_cache_service_impl.dart';
+import 'package:gestao_escala/modules/login/presenter/login_controller.dart';
 import 'package:get/get.dart';
 
 class LoginBindings implements Bindings {
@@ -20,6 +21,9 @@ class LoginBindings implements Bindings {
       cacheService: Get.find()
     ));
     Get.lazyPut<Register>(() => Register(repository: Get.find()));
-    Get.put(Get.find()); 
+    Get.put(LoginController(
+      authentication: Get.find(), 
+      register: Get.find()
+    ));
   }
 }

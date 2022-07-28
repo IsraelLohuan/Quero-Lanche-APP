@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'application/app_bindings.dart';
+import 'modules/home/presenter/home_module.dart';
 import 'modules/login/presenter/login_module.dart';
 import 'modules/splash/presenter/splash_bindings.dart';
 import 'modules/splash/presenter/splash_module.dart';
@@ -52,6 +53,7 @@ class App extends StatelessWidget {
       getPages: [
         ...SplashModule().routers,
         ...LoginModule().routers,
+        ...HomeModule().routers
       ],
     );
   }
