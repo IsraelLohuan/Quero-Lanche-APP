@@ -1,22 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gestao_escala/modules/login/domain/errors/errors.dart';
 import 'package:gestao_escala/modules/login/infra/datasources/i_authentication_datasource.dart';
 import 'package:gestao_escala/modules/shared/domain/entities/user_model.dart';
-import '../../domain/errors/errors.dart';
 
 class AuthenticationDataSourceImpl implements IAuthenticationDataSource {
+
   @override
   Future<UserModel> login(String email, String password) async {
-    final UserModel? userModel = await _findAccountByEmail(email);
+    final user = await _findAccountByEmail(email);
 
-    if(userModel == null) {
+    if(user == null) {
       throw FailureEmailNotFound();
     } 
 
-    if(userModel.password == password) {
-      return userModel;
+    if(user.password == password) {
+      return user;
     }
 
     throw FailureInvalidCredentials(); 
+  }
+
+  @override
+  Future<UserModel> register(UserModel userModel) async {
+    if(await _findAccountByEmail(userModel.email) != null) {
+      throw FailureUsedEmail();
+    }
+
+    final CollectionReference accountRef = FirebaseFirestore.instance.collection('/user');
+
+    accountRef.doc().set(userModel.toJson());
+
+    return userModel;
   }
 
   Future<UserModel?> _findAccountByEmail(String email) async {

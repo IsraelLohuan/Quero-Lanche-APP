@@ -21,3 +21,8 @@ class FailureInvalidCredentials implements FailureRequest {
   @override
   String get messageError => 'Usuário ou senha inválidos!';
 }
+
+class FailureUsedEmail implements FailureRequest {
+  @override
+  String get messageError => 'O E-mail informado já está em uso!';
+}

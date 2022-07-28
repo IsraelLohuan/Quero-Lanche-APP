@@ -83,7 +83,7 @@ class LoginPage extends GetView<LoginController> {
                 GestureDetector(
                   onTap: () async {
                     if(_keyForm.currentState!.validate()) {
-                      await controller.auth(_edtName.text, _edtEmail.text, _edtPassword.text);
+                      await controller.executeOperation(_edtName.text, _edtEmail.text, _edtPassword.text);
                     }
                   },
                   child: Container(
