@@ -12,9 +12,7 @@ class SplashController extends GetxController {
     super.onInit();
     Future.delayed(
       Duration(seconds: 5),
-      () => getEmailSaved().then((email) =>  print(email))
+      () => getEmailSaved().then((email) => Get.offAndToNamed('/login', arguments: {'email': email}))
     );
   }
 }
-
-//Get.offAndToNamed('/login', arguments: {'email': email})

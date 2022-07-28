@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 class SplashBindings implements Bindings {
   @override
   dependencies() {
-    Get.lazyPut<IEmailCacheService>(() => EmailCacheServiceImpl(Get.find()));
-    Get.lazyPut(() => GetEmailSaved(Get.find()));
-    Get.lazyPut(() => SplashController(Get.find())); 
+    Get.put<IEmailCacheService>(EmailCacheServiceImpl(Get.find()));
+    Get.put(GetEmailSaved(Get.find()));
+    Get.put(SplashController(Get.find())); 
   }
 }
