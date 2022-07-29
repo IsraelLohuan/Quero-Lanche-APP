@@ -5,10 +5,8 @@ import 'package:gestao_escala/repositories/login/i_login_repository.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:uuid/uuid.dart';
-
 import '../../application/services/auth/auth_service.dart';
 import '../../application/utils/constants.dart';
-import '../../application/utils/extensions.dart';
 import '../../application/utils/utils.dart';
 import '../../models/user_model.dart';
 
@@ -26,16 +24,24 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
 
   LoginController({required this.loginRepository, required this.authService});
 
-  String get titleButton =>  isLogin.value ? 'Logar' : 'Cadastrar';
-  String get alertBottom =>  isLogin.value ? 'Não possui uma conta? ' : 'Já é cadastrado? ';
-  String get actionBottom => isLogin.value ? 'Cadastrar' : 'Logar';
+  String get titleButton  =>  isLogin.value ? 'Logar' : 'Cadastrar';
+  String get alertBottom  =>  isLogin.value ? 'Não possui uma conta? ' : 'Já é cadastrado? ';
+  String get actionBottom =>  isLogin.value ? 'Cadastrar' : 'Logar';
+
+  String get emailInCache {
+    if(Get.arguments != null) {
+      return Get.arguments['email'];
+    }
+
+    return '';
+  }
 
   @override
   void onInit() {
     super.onInit();
     loaderListener(loading);
     messageListener(message);
-    isSavedEmail.value = Get.arguments['email'].toString().isNotEmpty; 
+    isSavedEmail.value = emailInCache.isNotEmpty; 
   }
 
   Future<void> auth(String name, String email, String password) async {
@@ -62,6 +68,8 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
         _getStorage.remove(Constants.KEY_EMAIL);
       }
 
+      authService.isLogged = true;
+      
       Get.offNamed('/home');
     } catch(e) {
       loading(false);

@@ -13,7 +13,7 @@ class LoginPage extends GetView<LoginController> {
 
   final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
   final TextEditingController _edtName = TextEditingController();
-  final TextEditingController _edtEmail = TextEditingController(text: Get.arguments['email']);
+  final TextEditingController _edtEmail = TextEditingController(text: Get.arguments?['email'] ?? '');
   final TextEditingController _edtPassword = TextEditingController();
 
   @override

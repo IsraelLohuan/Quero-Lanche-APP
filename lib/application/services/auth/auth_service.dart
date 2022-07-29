@@ -9,12 +9,13 @@ import '../../../models/user_model.dart';
 class AuthService extends GetxService {
   final IRemoteData remote;
   final RxBool _isAdmin = false.obs;
-
+  
+  bool isLogged = false;
   UserModel? _userModel;
 
   bool get isAdmin => _isAdmin.value;
   UserModel get user => _userModel!;
-
+  
   set userModel(UserModel user) {
     _userModel = user;
     remote.insert('user', json.encode(user.toJson()));

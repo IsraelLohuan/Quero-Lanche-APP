@@ -5,6 +5,7 @@ import 'package:gestao_escala/application/services/auth/auth_service.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/application/utils/constants.dart';
 import 'package:gestao_escala/modules/home/tab_scale/scale_list_page.dart';
+import 'package:gestao_escala/modules/login/login_guard.dart';
 import 'package:get/get.dart';
 import '../../models/user_model.dart';
 import 'tab_member/members_page.dart';
