@@ -57,9 +57,15 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     fetchScale();
   }
 
+  List<DayModel> _getNextDays(List<DayModel> allDays) {
+    List<DayModel> nextDays = allDays.where((result) => result.day.isAfter(DateTime.now())).toList();
+    return nextDays;
+  }
+
   updateListScale(List<DayModel> value) {
     daysScale = value;
-    _streamDaysScale.add(value);
+    final days = _getNextDays(daysScale!);
+    _streamDaysScale.add(days);
   }
 
   Future<void> fetchScale() async {
