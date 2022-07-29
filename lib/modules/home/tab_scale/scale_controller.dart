@@ -120,11 +120,18 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   }
 
   Future<bool> onCreatedScale() async {
-    if(int.parse(usersSelectedTotal) <= 1) {
+    final totalUsersSelected = int.parse(usersSelectedTotal);
+    final daysScale = _generateScale();
+
+    if(totalUsersSelected <= 1) {
       throw Exception('Necessário no mínimo 2 Usuários selecionados!');
     }
 
-    await scaleRepository.createScale(_generateScale());
+    if(totalUsersSelected > daysScale.length) {
+      throw Exception('O total de usuários selecionados ultrapassa o restante de sextas feiras do ano!\n\n');
+    }
+
+    await scaleRepository.createScale(daysScale);
     await fetchScale();
 
     return true;
