@@ -7,16 +7,30 @@ import 'package:wc_form_validators/wc_form_validators.dart';
 import '../../application/ui/app_ui_config.dart';
 import '../../application/ui/components/form_field_app.dart';
 
-class LoginPage extends GetView<LoginController> {
-   
-  LoginPage({Key? key, isLogin = true}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  final String email;
 
-  final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
-  final TextEditingController _edtName = TextEditingController();
-  final TextEditingController _edtEmail = TextEditingController(text: Get.arguments?['email'] ?? '');
-  final TextEditingController _edtPassword = TextEditingController();
+  LoginPage({Key? key, required this.email}) : super(key: key);
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
+  final TextEditingController _edtName = TextEditingController();
+  final TextEditingController _edtEmail = TextEditingController();
+  final TextEditingController _edtPassword = TextEditingController();
+  late LoginController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _edtEmail.text = widget.email;
+    controller = Get.find<LoginController>()..setIsSavedEmail(widget.email.isNotEmpty);
+  }
+
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -126,4 +140,3 @@ class LoginPage extends GetView<LoginController> {
     controller.onTapActionTitle();
   }
 }
-

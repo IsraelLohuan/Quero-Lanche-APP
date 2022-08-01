@@ -3,6 +3,7 @@ import 'package:gestao_escala/application/ui/components/alert_message_app.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
 import 'package:gestao_escala/application/utils/extensions.dart';
 import 'package:gestao_escala/modules/home/tab_scale/scale_controller.dart';
+import 'package:gestao_escala/modules/home/tab_scale/scale_member_page.dart';
 import 'package:get/get.dart';
 import 'components/card_date.dart';
 
@@ -48,7 +49,9 @@ class ScaleListPage extends GetView<ScaleController> {
           return Visibility(
             visible: controller.authService.isAdmin,
             child: FloatingActionButton(
-              onPressed: () => Get.toNamed('/scale_members', arguments: () => _onFinishSelectedMember()),
+              onPressed: () {
+                Get.to(ScaleMemberPage(onTapSave: () => _onFinishSelectedMember(),));
+              },
               child: Icon(Icons.add),
             ),
           );

@@ -1,6 +1,7 @@
 import 'package:gestao_escala/application/services/auth/auth_service.dart';
 import 'package:gestao_escala/application/ui/loader/loader_mixin.dart';
 import 'package:gestao_escala/application/ui/messages/messages_mixin.dart';
+import 'package:gestao_escala/modules/home/home_page.dart';
 import 'package:gestao_escala/repositories/login/i_login_repository.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -28,21 +29,14 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
   String get alertBottom  =>  isLogin.value ? 'Não possui uma conta? ' : 'Já é cadastrado? ';
   String get actionBottom =>  isLogin.value ? 'Cadastrar' : 'Logar';
 
-  String get emailInCache {
-    if(Get.arguments != null) {
-      return Get.arguments['email'];
-    }
-
-    return '';
-  }
-
   @override
   void onInit() {
     super.onInit();
     loaderListener(loading);
     messageListener(message);
-    isSavedEmail.value = emailInCache.isNotEmpty; 
   }
+
+  bool setIsSavedEmail(bool result) => isSavedEmail.value = result;
 
   Future<void> auth(String name, String email, String password) async {
 
@@ -70,7 +64,7 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
 
       authService.isLogged = true;
       
-      Get.offNamed('/home');
+      Get.off(HomePage());
     } catch(e) {
       loading(false);
       message(MessageModel.error(title: 'Autenticação', message: Utils.messageException(e)));

@@ -1,17 +1,17 @@
-import 'package:gestao_escala/application/utils/constants.dart';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import '../../application/utils/constants.dart';
+import '../login/login_page.dart';
 
-class SplashController extends GetxController {
+class SplashController {
  
   final _getStorage = GetStorage();
 
-  @override
-  void onInit() {
-    super.onInit();
+  void goToLogin() {
     Future.delayed(
       Duration(seconds: 5),
-      () => getEmailSaved().then((email) =>  Get.offAndToNamed('/login', arguments: {'email': email}))
+      () => getEmailSaved().then((email) =>  Get.off(LoginPage(email: email,)))
     );
   }
 

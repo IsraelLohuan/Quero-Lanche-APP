@@ -23,11 +23,7 @@ class HomePage extends GetView<HomeController> {
         title: Obx(() => Text(controller.titlePage, style: TextStyle(fontSize: 24),)),
       ),
       backgroundColor: Colors.white,
-      body: Navigator(
-        initialRoute: '/scales',
-        onGenerateRoute: controller.onGeneratedRouter,
-        key: Get.nestedKey(HomeController.NAVIGATOR_KEY),
-      ),
+      body: Obx(() => controller.body.value),
       drawer: Drawer(
         child: StreamBuilder(
           stream: scaleController.streamDaysScale,

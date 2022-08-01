@@ -10,9 +10,7 @@ import 'package:gestao_escala/application/utils/extensions.dart';
 class ScaleMemberPage extends StatefulWidget {
   late final VoidCallback onTapSave;
 
-  ScaleMemberPage({super.key}) {
-    onTapSave = Get.arguments;
-  }
+  ScaleMemberPage({required this.onTapSave, super.key});
 
   @override
   State<ScaleMemberPage> createState() => _ScaleMemberPageState();
