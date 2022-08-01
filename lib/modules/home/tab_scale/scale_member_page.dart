@@ -8,18 +8,29 @@ import '../../../models/user_model.dart';
 import 'package:gestao_escala/application/utils/extensions.dart';
 
 class ScaleMemberPage extends StatefulWidget {
+  late final bool insertNewMember;
   late final VoidCallback onTapSave;
 
-  ScaleMemberPage({required this.onTapSave, super.key});
+  ScaleMemberPage({
+    required this.onTapSave, 
+    this.insertNewMember = false, 
+    super.key
+  });
 
   @override
   State<ScaleMemberPage> createState() => _ScaleMemberPageState();
 }
 
 class _ScaleMemberPageState extends State<ScaleMemberPage> {
-  final controller = Get.find<ScaleController>();
+  late ScaleController controller;
 
   List<UserModel> get users => controller.userRx.value;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<ScaleController>()..setInsertNewMember(widget.insertNewMember);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,17 +127,20 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
         itemBuilder: (context, index) {
           final user = users[index];
 
-          return Container(
-            padding: EdgeInsets.all(20),
+          return Visibility(
+            visible: controller.isVisibleCardSwitch(user),
             key: ValueKey(user),
-            child: SwitchListTile(
-              value: user.isSelected,
-                onChanged: (bool value) => setState(() => user.isSelected = value),
-                title: Text(
-                  user.displayName.toUpperCase(),
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
+            child: Container(
+              padding: EdgeInsets.all(20),
+              child: SwitchListTile(
+                value: user.isSelected,
+                  onChanged: (bool value) => setState(() => user.isSelected = value),
+                  title: Text(
+                    user.displayName.toUpperCase(),
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  )
                 )
-              )
+              ),
             );
           }
         );

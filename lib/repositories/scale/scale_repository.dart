@@ -10,14 +10,15 @@ class ScaleRepository implements IScaleRepository {
   Future<bool> createScale(List<DayModel> days) async {
     final CollectionReference accountRef = FirebaseFirestore.instance.collection(collection);
 
-    days.forEach((element) => accountRef.doc().set(element.toJson()));
+    for (var day in days) {
+      accountRef.doc().set(day.toJson());
+    }
     
     return true;
   }
 
   @override
   Future<void> deleteScale() async {
-
     final CollectionReference accountRef = FirebaseFirestore.instance.collection(collection);
     final snapshots = await accountRef.get();
 
@@ -46,5 +47,13 @@ class ScaleRepository implements IScaleRepository {
   Future<void> updateScale({required String id, required Map<String, Object> data}) async {
     final CollectionReference accountRef = FirebaseFirestore.instance.collection(collection);
     await accountRef.doc(id).update(data);
+  }
+  
+  @override
+  Future<void> updateAllScale(List<DayModel> days) async {
+    final CollectionReference accountRef = FirebaseFirestore.instance.collection(collection);
+    for (var day in days) {
+      accountRef.doc(day.id).update(day.toJson());
+    }
   }
 }

@@ -24,6 +24,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   final Rx<List<UserModel>> userRx = Rx<List<UserModel>>([]);
   List<UserModel> allUsers = [];
   List<DayModel>? daysScale;
+  bool _insertNewMember = false;
 
   bool _isPaid(DayModel dayInfo)     => dayInfo.day.isBefore(DateTime.now()); 
   Stream get streamDaysScale         => _streamDaysScale.stream;
@@ -38,6 +39,21 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     required this.authService
   });
  
+  void setInsertNewMember(bool value) => _insertNewMember = value;
+
+  bool isVisibleCardSwitch(UserModel user) {
+    if(_insertNewMember && _userInList(user)) {
+      return false;
+    }
+      
+    return true;
+  }
+
+  bool _userInList(UserModel user) {
+    final insertInList = daysScale!.firstWhereOrNull((day) => day.userResponsible.displayName == user.displayName);
+    return insertInList != null;
+  }
+
   void setDaySelected(DayModel? user) => _daySelected.value = user;
 
   void updateStateActionButton() {
@@ -119,7 +135,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     return daysModel;
   }
 
-  Future<bool> onCreatedScale() async {
+  List<DayModel> _onGenerateScale() {
     final totalUsersSelected = int.parse(usersSelectedTotal);
     final daysScale = _generateScale();
 
@@ -131,9 +147,18 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
       throw Exception('O total de usuários selecionados ultrapassa o restante de sextas feiras do ano!\n\n');
     }
 
-    await scaleRepository.createScale(daysScale);
-    await fetchScale();
+    return daysScale;
+  }
 
+  Future<bool> onCreatedScale() async {
+    await scaleRepository.createScale(_onGenerateScale());
+    await fetchScale();
+    return true;
+  }
+
+  Future<bool> onUpdateScale() async {
+    await scaleRepository.updateAllScale(_onGenerateScale());
+    await fetchScale();
     return true;
   }
 

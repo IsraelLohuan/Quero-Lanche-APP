@@ -169,7 +169,7 @@ class _ScaleListPageState extends State<ScaleListPage> with SingleTickerProvider
     Get.defaultDialog(
       title: 'Informação',
       content: builderFutureContentDialog(
-        future: controller.onCreatedScale(),
+        future: controller.onUpdateScale(),
         messageSucess: 'Colaborador inserido com sucesso!'
       ),
     );
