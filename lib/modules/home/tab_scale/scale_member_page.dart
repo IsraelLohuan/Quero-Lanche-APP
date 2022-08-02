@@ -61,10 +61,7 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
           actions: [
             IconButton(
               onPressed: () {
-                Get.defaultDialog(
-                  title: 'Info',
-                  content: Text('Caso queira alterar a ordem de colaboradores, pressione o card e altere a posição!')
-                );
+                showDialogInfo();
               }, 
               icon: Icon(
                 Icons.info_sharp,
@@ -73,13 +70,25 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
             )
           ],
         ),
-        floatingActionButton: ElevatedButton.icon(
-          onPressed: widget.onTapSave,
-          icon: Icon(Icons.check),
-          label: Text(controller.usersSelectedTotal.toString())
+        floatingActionButton: StreamBuilder(
+          stream: controller.allUsersRx.stream,
+          builder: (context, snapshot) {
+            return ElevatedButton.icon(
+              onPressed: widget.onTapSave,
+              icon: Icon(Icons.check),
+              label: Text(controller.usersSelectedTotal.toString())
+            );
+          }
         ),
         body: users.isEmpty ? _builderFuture() : _builderList()
       ),
+    );
+  }
+
+  Future<dynamic> showDialogInfo() {
+    return Get.defaultDialog(
+      title: 'Info',
+      content: Text('Caso queira alterar a ordem de colaboradores, pressione o card e altere a posição!')
     );
   }
 

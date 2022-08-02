@@ -42,7 +42,6 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
 
   bool isVisibleCardSwitch(UserModel user) {
     if(_insertNewMember && _userInList(user)) {
-      user.isSelected = true;
       return false;
     }
       
@@ -120,6 +119,12 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
       throw Exception('Não é possível continuar com a operação, necessário no mínimo 2 Usuários cadastrados :(');
     }
     
+    for(var user in allUsersRx.value) {
+      if(_userInList(user)) {
+        user.isSelected = true;
+      }
+    }
+
     return true;
   }
 
