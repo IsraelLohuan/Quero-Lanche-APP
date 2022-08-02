@@ -127,7 +127,7 @@ class HomePage extends GetView<HomeController> {
               activeColor: Get.theme.primaryColorDark,
               textAlign: TextAlign.center,
             ),
-             BottomNavyBarItem(
+            BottomNavyBarItem(
               icon: const Icon(Icons.exit_to_app),
               title: const Text('Sair'),
               activeColor: Get.theme.primaryColorDark,

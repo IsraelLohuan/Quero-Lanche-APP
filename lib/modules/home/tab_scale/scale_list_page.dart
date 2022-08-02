@@ -35,7 +35,6 @@ class _ScaleListPageState extends State<ScaleListPage> with SingleTickerProvider
     final curvedAnimation = CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
     _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
     
-    
     super.initState();
   }
 
@@ -87,7 +86,7 @@ class _ScaleListPageState extends State<ScaleListPage> with SingleTickerProvider
 
   Widget builderButtonAddScale() {
     return FloatingActionButton(
-      onPressed: () => Get.to(ScaleMemberPage(onTapSave: () => _onFinishSelectedMember(),)),
+      onPressed: () => Get.to(ScaleMemberPage(onTapSave: () => showDialogGenerateScale())),
       child: Icon(Icons.add),
     );
   }
@@ -128,9 +127,9 @@ class _ScaleListPageState extends State<ScaleListPage> with SingleTickerProvider
       ],
       animation: _animation,
       onPress: () => _animationController.isCompleted ? _animationController.reverse() : _animationController.forward(),
-      iconColor: AppUiConfig.colorMain,
-      iconData: Icons.info,
-      backGroundColor: Colors.white,
+      iconColor: Colors.white,
+      iconData: Icons.info_outline,
+      backGroundColor: AppUiConfig.colorMain,
     );
   }
 
@@ -155,31 +154,28 @@ class _ScaleListPageState extends State<ScaleListPage> with SingleTickerProvider
     );
   }
 
-  void _onFinishSelectedMember() {
-    Get.back();
-    showDialogGenerateScale();
-  }
-
   void onClickRemoveScale(BuildContext context) {
     Navigator.of(context).pop();
     controller.deleteScale();
   }
 
   void showDialogMemberInserted() {
+    Get.back();
     Get.defaultDialog(
       title: 'Informação',
       content: builderFutureContentDialog(
-        future: controller.onUpdateScale(),
+        future: controller.scaleManagerOperation(isUpdate: true),
         messageSucess: 'Colaborador inserido com sucesso!'
       ),
     );
   }
 
   void showDialogGenerateScale() {
+    Get.back();
     Get.defaultDialog(
       title: 'Informação',
       content: builderFutureContentDialog(
-        future: controller.onCreatedScale(),
+        future: controller.scaleManagerOperation(isUpdate: false),
         messageSucess: 'Escala deste Ano Gerada com sucesso!'
       ),
     );

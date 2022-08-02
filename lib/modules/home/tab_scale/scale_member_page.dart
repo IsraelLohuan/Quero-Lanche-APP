@@ -24,7 +24,7 @@ class ScaleMemberPage extends StatefulWidget {
 class _ScaleMemberPageState extends State<ScaleMemberPage> {
   late ScaleController controller;
 
-  List<UserModel> get users => controller.userRx.value;
+  List<UserModel> get users => controller.allUsersRx.value;
 
   @override
   void initState() {
@@ -73,20 +73,18 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
             )
           ],
         ),
-        floatingActionButton: Obx(() {
-          return ElevatedButton.icon(
-            onPressed: widget.onTapSave,
-            icon: Icon(Icons.check),
-            label: Text(controller.usersSelectedTotal)
-          );
-        }),
+        floatingActionButton: ElevatedButton.icon(
+          onPressed: widget.onTapSave,
+          icon: Icon(Icons.check),
+          label: Text(controller.usersSelectedTotal.toString())
+        ),
         body: users.isEmpty ? _builderFuture() : _builderList()
       ),
     );
   }
 
   Widget _builderFuture() {
-    return FutureBuilder<List<UserModel>>(
+    return FutureBuilder<bool>(
       future: controller.fetchAllUsers(),
       builder: (context, snapshot) {
         if(snapshot.hasError) {
@@ -103,10 +101,6 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
             child: CircularProgressIndicator(),
           );
         }
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          controller.userRx.value = snapshot.data!;  
-        });
 
         return _builderList();
       }

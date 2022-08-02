@@ -51,9 +51,7 @@ class ScaleRepository implements IScaleRepository {
   
   @override
   Future<void> updateAllScale(List<DayModel> days) async {
-    final CollectionReference accountRef = FirebaseFirestore.instance.collection(collection);
-    for (var day in days) {
-      accountRef.doc(day.id).update(day.toJson());
-    }
+    await deleteScale();
+    await createScale(days);
   }
 }

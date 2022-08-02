@@ -21,16 +21,15 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   final _messageModel = Rxn<MessageModel>();
   final StreamController<List<DayModel>?> _streamDaysScale = StreamController<List<DayModel>?>.broadcast();
   final Rx<DayModel?> _daySelected = Rx<DayModel?>(null);
-  final Rx<List<UserModel>> userRx = Rx<List<UserModel>>([]);
-  List<UserModel> allUsers = [];
+  final Rx<List<UserModel>> allUsersRx = Rx<List<UserModel>>([]);
   List<DayModel>? daysScale;
   bool _insertNewMember = false;
 
   bool _isPaid(DayModel dayInfo)     => dayInfo.day.isBefore(DateTime.now()); 
   Stream get streamDaysScale         => _streamDaysScale.stream;
   bool get isActivateAddScale        => _isStateButtonCreateScale.value;
-  String get usersSelectedTotal      => usersSelected.length.toString();
-  List<UserModel> get usersSelected  => userRx.value.where((user) => user.isSelected).toList();
+  int get usersSelectedTotal         => usersSelected.length;
+  List<UserModel> get usersSelected  => allUsersRx.value.where((user) => user.isSelected).toList();
   DayModel? get daySelected          => _daySelected.value;
  
   ScaleController({
@@ -43,6 +42,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
 
   bool isVisibleCardSwitch(UserModel user) {
     if(_insertNewMember && _userInList(user)) {
+      user.isSelected = true;
       return false;
     }
       
@@ -50,8 +50,11 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   }
 
   bool _userInList(UserModel user) {
-    final insertInList = daysScale!.firstWhereOrNull((day) => day.userResponsible.displayName == user.displayName);
-    return insertInList != null;
+    if(daysScale != null) {
+      final insertInList = daysScale!.firstWhereOrNull((day) => day.userResponsible.displayName == user.displayName);
+      return insertInList != null;
+    }
+    return false;
   }
 
   void setDaySelected(DayModel? user) => _daySelected.value = user;
@@ -110,14 +113,14 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     updateStateActionButton();
   }
 
-  Future<List<UserModel>> fetchAllUsers() async {
-    allUsers = await memberService.fetchAll(); 
+  Future<bool> fetchAllUsers() async {
+    allUsersRx.value = await memberService.fetchAll(); 
 
-    if(allUsers.length == 1) {
+    if(allUsersRx.value.length == 1) {
       throw Exception('Não é possível continuar com a operação, necessário no mínimo 2 Usuários cadastrados :(');
     }
-
-    return allUsers;
+    
+    return true;
   }
 
   List<DayModel> _generateScale() {
@@ -136,28 +139,24 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
   }
 
   List<DayModel> _onGenerateScale() {
-    final totalUsersSelected = int.parse(usersSelectedTotal);
     final daysScale = _generateScale();
 
-    if(totalUsersSelected <= 1) {
+    if(usersSelectedTotal <= 1 && !_insertNewMember) {
       throw Exception('Necessário no mínimo 2 Usuários selecionados!');
     }
 
-    if(totalUsersSelected > daysScale.length) {
+    if(usersSelectedTotal > daysScale.length) {
       throw Exception('O total de usuários selecionados ultrapassa o restante de sextas feiras do ano!\n\n');
     }
 
     return daysScale;
   }
 
-  Future<bool> onCreatedScale() async {
-    await scaleRepository.createScale(_onGenerateScale());
-    await fetchScale();
-    return true;
-  }
+  Future<bool> scaleManagerOperation({required bool isUpdate}) async {
+    final List<DayModel> scale = _onGenerateScale();
 
-  Future<bool> onUpdateScale() async {
-    await scaleRepository.updateAllScale(_onGenerateScale());
+    isUpdate ? await scaleRepository.updateAllScale(scale) : await scaleRepository.createScale(scale);
+    
     await fetchScale();
     return true;
   }
