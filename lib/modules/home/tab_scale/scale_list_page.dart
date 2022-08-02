@@ -43,7 +43,7 @@ class _ScaleListPageState extends State<ScaleListPage> with SingleTickerProvider
     return Scaffold(
       body: StreamBuilder(
         stream: controller.streamDaysScale,
-        initialData: controller.daysScale,
+        initialData: controller.getNextDays(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {  
           if(snapshot.hasError) {
             return AlertMessageApp(
@@ -55,17 +55,19 @@ class _ScaleListPageState extends State<ScaleListPage> with SingleTickerProvider
             return Center(child: CircularProgressIndicator());
           }
 
-          if(controller.daysScale!.isEmpty) {
+          final data = snapshot.data;
+
+          if(data.isEmpty) {
             return AlertMessageApp(
               messageModel: MessageModel(message: 'Não há escala gerada para este Ano!', type: MessageType.info)
             );  
           }
 
           return ListView.builder(
-            itemCount: controller.daysScale!.length,
+            itemCount: data.length,
             itemBuilder: (context, index) {
               return CardDate(
-                dayInfo: controller.daysScale![index]
+                dayInfo: data[index]
               );
             }
           );

@@ -18,10 +18,10 @@ class ScaleRepository implements IScaleRepository {
   }
 
   @override
-  Future<void> deleteScale() async {
+  Future<void> deleteScale({Object? isGreaterThan}) async {
     final CollectionReference accountRef = FirebaseFirestore.instance.collection(collection);
-    final snapshots = await accountRef.get();
-
+    final snapshots = await accountRef.where('day', isGreaterThan: isGreaterThan).get();
+ 
     for (var doc in snapshots.docs) {
       await doc.reference.delete();
     }
@@ -51,7 +51,7 @@ class ScaleRepository implements IScaleRepository {
   
   @override
   Future<void> updateAllScale(List<DayModel> days) async {
-    await deleteScale();
+    await deleteScale(isGreaterThan: Timestamp.fromDate(DateTime.now()));
     await createScale(days);
   }
 }
