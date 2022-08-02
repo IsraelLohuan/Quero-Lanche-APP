@@ -119,6 +119,7 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
   Widget _builderList() {
     return Obx(() {
       return ReorderableListView.builder(
+        buildDefaultDragHandles: false,
         onReorder: (oldIndex, newIndex) {
           if(newIndex > oldIndex) {
             newIndex = newIndex - 1;
@@ -129,20 +130,23 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
         itemCount: users.length,
         itemBuilder: (context, index) {
           final user = users[index];
-
-          return Visibility(
-            visible: controller.isVisibleCardSwitch(user),
+          
+          return ReorderableDragStartListener(
             key: ValueKey(user),
-            child: Container(
-              padding: EdgeInsets.all(20),
-              child: SwitchListTile(
-                value: user.isSelected,
-                  onChanged: (bool value) => setState(() => user.isSelected = value),
-                  title: Text(
-                    user.displayName.toUpperCase(),
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
+            index: index,
+            child: Visibility(
+              visible: controller.isVisibleCardSwitch(user),
+              child: Container(
+                padding: EdgeInsets.all(20),
+                child: SwitchListTile(
+                  value: user.isSelected,
+                    onChanged: (bool value) => setState(() => user.isSelected = value),
+                    title: Text(
+                      user.displayName.toUpperCase(),
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    )
                   )
-                )
+                ),
               ),
             );
           }
