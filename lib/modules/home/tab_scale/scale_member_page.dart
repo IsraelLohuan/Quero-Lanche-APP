@@ -141,7 +141,7 @@ class _ScaleMemberPageState extends State<ScaleMemberPage> {
                 child: SwitchListTile(
                   value: user.isSelected,
                     onChanged: (bool value) => setState(() => user.isSelected = value),
-                    title: Text(
+                    title: Text( 
                       user.displayName.toUpperCase(),
                       style: TextStyle(color: Colors.grey, fontSize: 12),
                     )

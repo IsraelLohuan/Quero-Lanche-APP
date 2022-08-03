@@ -14,7 +14,7 @@ class DateUtils {
         }
       }
     }
-
+    
     return dates;
   }
   

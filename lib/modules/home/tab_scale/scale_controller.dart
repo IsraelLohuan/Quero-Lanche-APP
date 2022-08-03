@@ -38,6 +38,53 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     required this.authService
   });
  
+  @override
+  void onInit() {
+    super.onInit();
+    loaderListener(_isLoading); 
+    messageListener(_messageModel);
+    fetchScale();
+  }
+
+  /*
+    Este método obtém a lista de usuários já inseridos na escala gerada.
+  */
+
+  List<UserModel> _getUsersFromScale(List<String> inserted) {
+   
+    List<UserModel> users = [];
+
+    for(var day in daysScale!) {
+      final user = day.userResponsible;
+
+      if(!inserted.contains(user.displayName)) {
+        users.add(day.userResponsible);
+        inserted.add(user.displayName);
+      }
+    }
+
+    return users;
+  }
+
+  /*
+    Este método obtém a lista dos novos usuários selecionados para recriar a listagem.
+  */
+
+  List<UserModel> _getNewUsersSelected(List<String> inserted) => usersSelected.where((user) => user.isSelected && !inserted.contains(user.displayName)).toList();
+
+  List<UserModel> _getListUser() {
+    if(_insertNewMember) {
+      final List<String> inserted = [];
+      
+      return [
+        ..._getUsersFromScale(inserted), 
+        ..._getNewUsersSelected(inserted)
+      ];
+    }
+
+    return usersSelected;
+  }
+
   void setInsertNewMember(bool value) => _insertNewMember = value;
 
   bool isVisibleCardSwitch(UserModel user) {
@@ -65,14 +112,6 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     }
 
     _isStateButtonCreateScale.value = true;
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    loaderListener(_isLoading); 
-    messageListener(_messageModel);
-    fetchScale();
   }
 
   List<DayModel> getNextDays() {
@@ -135,9 +174,11 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
 
     int index = 0;
 
+    final data = _getListUser();
+
     for(DateTime day in fridays) {
-      daysModel.add(DayModel(day: day, userResponsible: usersSelected[index]));
-      index = (index >= usersSelected.length - 1) ? 0 : index + 1;
+      daysModel.add(DayModel(day: day, userResponsible: data[index]));
+      index = (index >= data.length - 1) ? 0 : index + 1;
     } 
 
     return daysModel;
@@ -163,7 +204,7 @@ class ScaleController extends GetxController with LoaderMixin, MessagesMixin {
     isUpdate ? await scaleRepository.updateAllScale(scale) : await scaleRepository.createScale(scale);
     
     await fetchScale();
-    return true;
+    return true; 
   }
 
   int getDataPaid(bool value) {
